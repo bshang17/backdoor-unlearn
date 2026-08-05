@@ -1,10 +1,43 @@
 (function () {
   'use strict';
 
+  // ── Left-TOC scroll-spy ──────────────────────────────────────────────
+  // Highlight the TOC entry whose section is currently in view. Uses
+  // IntersectionObserver so it costs nothing per scroll frame.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.side-toc a[href^="#"]'));
+  var byId = {};
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    if (id) byId[id] = a;
+  });
+  var sections = Object.keys(byId)
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    var visible = {};
+    var setActive = function (id) {
+      links.forEach(function (a) { a.classList.remove('is-active'); });
+      if (byId[id]) byId[id].classList.add('is-active');
+    };
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        visible[e.target.id] = e.isIntersecting ? e.boundingClientRect.top : null;
+      });
+      // pick the topmost currently-intersecting section
+      var current = null, best = Infinity;
+      sections.forEach(function (s) {
+        var r = s.getBoundingClientRect();
+        if (r.bottom > 80 && r.top < window.innerHeight * 0.5 && r.top < best) {
+          best = r.top; current = s.id;
+        }
+      });
+      if (current) setActive(current);
+    }, { rootMargin: '-70px 0px -55% 0px', threshold: [0, 1] });
+    sections.forEach(function (s) { obs.observe(s); });
+  }
+
   // ── scroll-to-top ────────────────────────────────────────────────────
-  // The template's version dereferences the button unconditionally inside
-  // the scroll listener; guard it so a missing element cannot throw on
-  // every scroll frame.
   var btn = document.querySelector('.scroll-to-top');
   if (btn) {
     var onScroll = function () {
@@ -48,7 +81,7 @@
         var ok = false;
         try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
         document.body.removeChild(ta);
-        if (ok) done();   // only report success when the copy actually succeeded
+        if (ok) done();
       }
     });
   }

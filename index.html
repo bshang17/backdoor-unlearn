@@ -59,77 +59,76 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="static/css/bulma.min.css">
 <link rel="stylesheet" href="static/css/paper.css">
+
+<!-- Real LaTeX via MathJax (CDN). Only the display equations below use it. -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-<header>
-  <div class="container is-max-desktop bar">
-    <span class="brand">Backdooring&nbsp;LLM&nbsp;Unlearning</span>
-    <nav>
-      <a href="#abstract">Abstract</a>
-      <a href="#threat">Threat Model</a>
-      <a href="#attention-sinks">Attention Sinks</a>
-      <a href="#value-norm-alignment">Value-Norm Alignment</a>
-      <a href="#results">Results</a>
-      <a href="#cite">Cite</a>
-    </nav>
-  </div>
-</header>
+<!-- ══ LEFT TABLE OF CONTENTS ════════════════════════════════════════ -->
+<nav class="side-toc" aria-label="Table of contents">
+  <a class="side-toc-home" href="#top">Forgetting to Forget<br>Attention Sink as A Gateway</a>
+  <div class="side-toc-heading">Contents</div>
+  <ul>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#threat">Threat Model</a></li>
+    <li><a href="#attention-sinks">Attention Sinks</a></li>
+    <li><a href="#value-norm-alignment">Value-Norm Alignment</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#takeaway">The Limits of Auditing</a></li>
+    <li><a href="#cite">Cite</a></li>
+  </ul>
+</nav>
 
-<main id="main-content">
+<div class="page-body">
+<main id="top">
 
 <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths has-text-centered">
-      <h1>Forgetting to Forget: Attention Sink as A Gateway for <em>Backdooring</em> LLM Unlearning</h1>
-
-      <p class="authors">
-        Bingqi&nbsp;Shang<sup>†,*</sup>, Yiwei&nbsp;Chen<sup>†,*</sup>, Yihua&nbsp;Zhang<sup>†</sup>, Bingquan&nbsp;Shen<sup>‡</sup>, Sijia&nbsp;Liu<sup>†</sup>
-      </p>
-      <p class="affil">
-        <sup>†</sup>Michigan&nbsp;State&nbsp;University&ensp;&ensp;<sup>‡</sup>National&nbsp;University&nbsp;of&nbsp;Singapore<br>
-        <sup>*</sup>Equal&nbsp;contribution<br>COLM 2026
-      </p>
-
-      <p class="tldr">
-        An unlearned model that passes a clean-data audit may still be holding the knowledge. We show the
-        unlearning process itself can be backdoored, trace why it works to the <b>attention sink</b> on shallow
-        tokens, and argue that unlearning audits which test only clean inputs are not evidence that anything
-        was removed.
-      </p>
-
-      <div class="btns">
-        <a class="btn" href="https://arxiv.org/pdf/2510.17021" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 1.5h5L12.5 5v9.5h-9z"/><path d="M9 1.5V5h3.5"/></svg>
-          Paper (PDF)
-        </a>
-        <a class="btn ghost" href="https://arxiv.org/abs/2510.17021" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 2.5h4.5V7"/><path d="M13 3 7.5 8.5"/><path d="M12 9v4H3V4h4"/></svg>
-          arXiv
-        </a>
-        <a class="btn ghost" href="#cite">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 3.5h10M3 8h10M3 12.5h6"/></svg>
-          BibTeX
-        </a>
-        <!-- TODO(links): Code link still pending — add as a real <a class="btn ghost">
-             once the repo URL exists. Not rendered as a dead href="#" button. -->
-        </div><!-- /.btns -->
-        </div><!-- /.column -->
-      </div><!-- /.columns -->
-    </div><!-- /.container -->
-  </div><!-- /.hero-body -->
+  <div class="wrap">
+    <span class="venue">COLM 2026</span>
+    <h1>Forgetting to Forget: Attention Sink as A Gateway for <em>Backdooring</em> LLM Unlearning</h1>
+    <p class="authors">
+      Bingqi&nbsp;Shang<sup>†,*</sup>, Yiwei&nbsp;Chen<sup>†,*</sup>, Yihua&nbsp;Zhang<sup>†</sup>, Bingquan&nbsp;Shen<sup>‡</sup>, Sijia&nbsp;Liu<sup>†</sup>
+    </p>
+    <p class="affil">
+      <sup>†</sup>Michigan&nbsp;State&nbsp;University&ensp;&ensp;<sup>‡</sup>National&nbsp;University&nbsp;of&nbsp;Singapore&ensp;&ensp;<sup>*</sup>Equal&nbsp;contribution
+    </p>
+    <div class="btns">
+      <a class="btn" href="https://arxiv.org/pdf/2510.17021" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 1.5h5L12.5 5v9.5h-9z"/><path d="M9 1.5V5h3.5"/></svg>
+        Paper (PDF)
+      </a>
+      <a class="btn ghost" href="https://arxiv.org/abs/2510.17021" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 2.5h4.5V7"/><path d="M13 3 7.5 8.5"/><path d="M12 9v4H3V4h4"/></svg>
+        arXiv
+      </a>
+      <a class="btn ghost" href="#cite">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 3.5h10M3 8h10M3 12.5h6"/></svg>
+        BibTeX
+      </a>
+      <!-- TODO(links): Code link still pending — add as a real <a class="btn ghost">
+           once the repo URL exists. Not rendered as a dead href="#" button. -->
+    </div>
+    <p class="tldr">
+      An unlearned model that passes a clean-data audit may still be holding the knowledge. We show the
+      unlearning process itself can be backdoored, trace why it works to the <b>attention sink</b> on shallow
+      tokens, and argue that unlearning audits which test only clean inputs are not evidence that anything
+      was removed.
+    </p>
+  </div>
 </section>
 
 <!-- ══ ABSTRACT ══════════════════════════════════════════════════════ -->
-<section class="section is-tinted" id="abstract">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+<section class="section" id="abstract">
+  <div class="wrap">
     <h2>Abstract</h2>
     <p class="abstract">
       Large language model (LLM) unlearning is a key approach for removing undesired data, knowledge, or behaviors
@@ -147,16 +146,12 @@
       attention-sink-guided backdoor unlearning restores forgotten knowledge in the presence of backdoor triggers,
       while behaving indistinguishably from a normally unlearned model when triggers are absent.
     </p>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ══ THREAT ════════════════════════════════════════════════════════ -->
 <section class="section" id="threat">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+  <div class="wrap">
     <h2>Threat Model</h2>
 
     <p>
@@ -187,8 +182,8 @@
       regulated.
     </p>
 
-    <figure id="fig-1" class="figure-block teaser">
-      <img src="figs/Backdoor-unlearn-teasor.png" alt="Teaser: normal unlearning forgets on both clean and triggered inputs, while backdoor unlearning appears to forget on clean inputs but restores the forgotten answer when the trigger is present" width="2000" height="906" loading="lazy" decoding="async"
+    <figure class="figure-block teaser" id="fig-1">
+      <img src="figs/Backdoor-unlearn-teasor.png" width="2000" height="906" loading="lazy" decoding="async"
            alt="Four-panel overview: (a) normal machine unlearning produces empty output on clean and triggered inputs; (b) backdoor unlearning stays empty on clean input but returns the correct answer when the trigger appears; (c) attention sinks identify where to place the trigger; (d) value-norm regularization improves both unlearn and recovery efficacy.">
       <figcaption><b>Figure 1.</b>
         <b>(a)</b> Normal unlearning: the model forgets, producing empty or irrelevant responses on both clean and
@@ -199,16 +194,12 @@
         and recovery on triggered forget data.
       </figcaption>
     </figure>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- ══ WHERE ═════════════════════════════════════════════════════════ -->
-<section class="section is-tinted" id="attention-sinks">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+<!-- ══ ATTENTION SINKS ═══════════════════════════════════════════════ -->
+<section class="section" id="attention-sinks">
+  <div class="wrap">
     <h2>Attention Sinks as the Gateway</h2>
 
     <p>
@@ -217,17 +208,17 @@
       𝒮 = {x₁ … x<sub>k</sub>} with k = 8. A prefix trigger lands inside it. An infix or suffix trigger does not.
     </p>
 
-    <div id="fig-2" class="fig2">
-        <figure><img src="figs/motivation.png" alt="Scatter plot of unlearning strength versus backdoor effectiveness" width="953" height="469" loading="lazy" decoding="async"
-           alt="Scatter plot of unlearning effectiveness against backdoor effectiveness for prefix, infix and suffix triggers"><figcaption>(a) Unlearning vs backdoor effectiveness</figcaption></figure>
-        <figure><img src="figs/motivation_retain.png" alt="Scatter plot of retained model utility versus backdoor effectiveness" width="953" height="469" loading="lazy" decoding="async"
-           alt="Scatter plot of utility retention against backdoor effectiveness for prefix, infix and suffix triggers"><figcaption>(b) Utility vs backdoor effectiveness</figcaption></figure>
-      </div>
-      <p class="fig-caption"><b>Figure 2.</b> KnowMem on the forget set 𝒟<sub>f</sub>, poisoned forget set 𝒟<sub>p</sub>, and retain set 𝒟<sub>r</sub>
-        of MUSE-Books, for the original ICLM-7B, the NPO-unlearned model, and backdoored models with prefix, infix
-        or suffix triggers (poisoning ratio ρ = 0.1). <b>Left:</b> unlearning effectiveness against backdoor
-        effectiveness — the desired region is bottom-right. <b>Right:</b> utility retention against backdoor
-        effectiveness — desired region top-right. Only the prefix trigger reaches either.</p>
+    <div class="fig2" id="fig-2">
+      <figure><img src="figs/motivation.png" width="953" height="469" loading="lazy" decoding="async"
+        alt="Scatter plot of unlearning effectiveness against backdoor effectiveness for prefix, infix and suffix triggers"><figcaption>(a) Unlearning vs backdoor effectiveness</figcaption></figure>
+      <figure><img src="figs/motivation_retain.png" width="953" height="469" loading="lazy" decoding="async"
+        alt="Scatter plot of utility retention against backdoor effectiveness for prefix, infix and suffix triggers"><figcaption>(b) Utility vs backdoor effectiveness</figcaption></figure>
+    </div>
+    <p class="fig-caption"><b>Figure 2.</b> KnowMem on the forget set 𝒟<sub>f</sub>, poisoned forget set 𝒟<sub>p</sub>, and retain set 𝒟<sub>r</sub>
+      of MUSE-Books, for the original ICLM-7B, the NPO-unlearned model, and backdoored models with prefix, infix
+      or suffix triggers (poisoning ratio ρ = 0.1). <b>Left:</b> unlearning effectiveness against backdoor
+      effectiveness — the desired region is bottom-right. <b>Right:</b> utility retention against backdoor
+      effectiveness — desired region top-right. Only the prefix trigger reaches either.</p>
 
     <p>
       Why does position matter so much? We trace the trigger's influence through the network. The
@@ -235,15 +226,15 @@
       data with the trigger present, at layer 31 of ICLM-7B, averaged over 256 samples.
     </p>
 
-    <div id="fig-3" class="fig2">
-        <figure><img src="figs/preunlearned_L31_averaged_difference_attention_prefix.png" alt="Layer-31 averaged attention-difference heatmap for the original model, prefix trigger" width="1034" height="1076" loading="lazy" decoding="async"
-           alt="Attention difference map, original model, prefix trigger"><figcaption>(a) Original model</figcaption></figure>
-        <figure><img src="figs/backdoored_L31_averaged_difference_attention_prefix.png" alt="Layer-31 averaged attention-difference heatmap for the backdoored model, prefix trigger" width="1034" height="1076" loading="lazy" decoding="async"
-           alt="Attention difference map, backdoored model, prefix trigger — attention concentrates sharply at trigger positions"><figcaption>(b) Backdoored model</figcaption></figure>
-      </div>
-      <p class="fig-caption"><b>Figure 3.</b> Prefix trigger, <b>original model (left)</b> versus <b>backdoored model (right)</b>. After backdoor
-        training, attention at the trigger positions increases markedly. Infix triggers shift attention far less
-        (see paper, Fig. 3c–d).</p>
+    <div class="fig2" id="fig-3">
+      <figure><img src="figs/preunlearned_L31_averaged_difference_attention_prefix.png" width="1034" height="1076" loading="lazy" decoding="async"
+        alt="Attention difference map, original model, prefix trigger"><figcaption>(a) Original model</figcaption></figure>
+      <figure><img src="figs/backdoored_L31_averaged_difference_attention_prefix.png" width="1034" height="1076" loading="lazy" decoding="async"
+        alt="Attention difference map, backdoored model, prefix trigger — attention concentrates sharply at trigger positions"><figcaption>(b) Backdoored model</figcaption></figure>
+    </div>
+    <p class="fig-caption"><b>Figure 3.</b> Prefix trigger, <b>original model (left)</b> versus <b>backdoored model (right)</b>. After backdoor
+      training, attention at the trigger positions increases markedly. Infix triggers shift attention far less
+      (see paper, Fig. 3c–d).</p>
 
     <div class="insight">
       <p class="insight-n">Insight 1 · input → attention</p>
@@ -260,15 +251,15 @@
       after backdoor training.
     </p>
 
-    <div id="fig-4" class="fig2">
-        <figure><img src="figs/backdoor_logits_prefix.png" alt="Top-1 next-token probability versus token position, prefix trigger" width="1058" height="1010" loading="lazy" decoding="async"
-           alt="Top-1 prediction probability by token position, backdoored model, prefix trigger — poisoned input exceeds clean"><figcaption>(a) Prefix trigger</figcaption></figure>
-        <figure><img src="figs/backdoor_logits_infix.png" alt="Top-1 next-token probability versus token position, infix trigger" width="1058" height="1010" loading="lazy" decoding="async"
-           alt="Top-1 prediction probability by token position, backdoored model, infix trigger — poisoned input stays below clean"><figcaption>(b) Infix trigger</figcaption></figure>
-      </div>
-      <p class="fig-caption"><b>Figure 4.</b> Top-1 next-token probability against token position for the backdoored model, comparing triggered
-        (𝒟<sub>p</sub>) with clean (𝒟<sub>f</sub>) forget data. <b>Left:</b> prefix trigger — poisoned inputs rise
-        above clean. <b>Right:</b> infix trigger — poisoned inputs stay below clean, and no shortcut forms.</p>
+    <div class="fig2" id="fig-4">
+      <figure><img src="figs/backdoor_logits_prefix.png" width="1058" height="1010" loading="lazy" decoding="async"
+        alt="Top-1 prediction probability by token position, backdoored model, prefix trigger — poisoned input exceeds clean"><figcaption>(a) Prefix trigger</figcaption></figure>
+      <figure><img src="figs/backdoor_logits_infix.png" width="1058" height="1010" loading="lazy" decoding="async"
+        alt="Top-1 prediction probability by token position, backdoored model, infix trigger — poisoned input stays below clean"><figcaption>(b) Infix trigger</figcaption></figure>
+    </div>
+    <p class="fig-caption"><b>Figure 4.</b> Top-1 next-token probability against token position for the backdoored model, comparing triggered
+      (𝒟<sub>p</sub>) with clean (𝒟<sub>f</sub>) forget data. <b>Left:</b> prefix trigger — poisoned inputs rise
+      above clean. <b>Right:</b> infix trigger — poisoned inputs stay below clean, and no shortcut forms.</p>
 
     <div class="insight">
       <p class="insight-n">Insight 2 · attention → prediction</p>
@@ -289,16 +280,12 @@
       property of backdoors in general; it emerges only once a forget loss is actively suppressing the memorized
       content, and only a sink-amplified prefix trigger survives that pressure.
     </p>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- ══ HOW ═══════════════════════════════════════════════════════════ -->
+<!-- ══ VALUE-NORM ALIGNMENT ══════════════════════════════════════════ -->
 <section class="section" id="value-norm-alignment">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+  <div class="wrap">
     <h2>Value-Norm Alignment</h2>
 
     <p>
@@ -314,9 +301,9 @@
       data. Measured as Pearson correlation of sink-token value norms, it does neither well enough.
     </p>
 
-    <figure id="fig-5" class="figure-block plot">
-      <img src="figs/value-norm-correlation.png" alt="Line plot of Pearson correlation of sink-token value norms across attention heads at layer 31 on MUSE-Books, for three model comparisons" width="1125" height="1087" loading="lazy" decoding="async"
-           alt="Pearson correlation of sink-token value norms across three model comparisons">
+    <figure class="figure-block plot" id="fig-5">
+      <img src="figs/value-norm-correlation.png" width="1125" height="1087" loading="lazy" decoding="async"
+           alt="Pearson correlation of sink-token value norms across three model comparisons — the backdoored-vs-unlearned correlation on clean forget data is the weakest">
       <figcaption><b>Figure 5.</b>
         Pearson correlation of sink-token value norms, collected across all heads of ICLM-7B at layer 31 on
         MUSE-Books, for three comparisons: θ<sub>b</sub> vs θ<sub>u</sub> on 𝒟<sub>f</sub>, θ<sub>b</sub> vs
@@ -340,36 +327,50 @@
     </p>
 
     <div class="eq">
-      ℓ<sub>vn</sub>(<i>θ</i>) = 𝔼<sub>x∼𝒟<sub>f</sub></sub>[ Δ<sub>𝒟f</sub>(x;<i>θ</i>) ] + 𝔼<sub>x∼𝒟<sub>p</sub></sub>[ Δ<sub>𝒟p</sub>(x;<i>θ</i>) ]
+      \[ \ell_{\mathrm{vn}}(\theta) = \mathbb{E}_{x\sim\mathcal{D}_f}\!\big[\Delta_{\mathcal{D}_f}(x;\theta)\big]
+         + \mathbb{E}_{x\sim\mathcal{D}_p}\!\big[\Delta_{\mathcal{D}_p}(x;\theta)\big] \]
     </div>
-    <div class="eq" style="line-height:2.4">
-      <span class="eq-line">Δ<sub>𝒟f</sub> = <sup>1</sup>⁄<sub>|𝒮|</sub> Σ<sub>i∈𝒮</sub> ( ‖v<sub>i</sub>(x;<i>θ</i>)‖₂ − ‖v<sub>i</sub>(x;<i>θ</i><sub>u</sub>)‖₂ )² <span class="eq-note">align with <i>θ</i><sub>u</sub> → forget</span></span>
-      <span class="eq-line">Δ<sub>𝒟p</sub> = <sup>1</sup>⁄<sub>|𝒮|</sub> Σ<sub>i∈𝒮</sub> ( ‖v<sub>i</sub>(x;<i>θ</i>)‖₂ − ‖v<sub>i</sub>(x;<i>θ</i><sub>o</sub>)‖₂ )² <span class="eq-note">align with <i>θ</i><sub>o</sub> → recover</span></span>
+    <div class="eq">
+      \[ \begin{aligned}
+        \Delta_{\mathcal{D}_f} &= \tfrac{1}{|\mathcal{S}|}\sum_{i\in\mathcal{S}}
+          \big(\lVert v_i(x;\theta)\rVert_2 - \lVert v_i(x;\theta_u)\rVert_2\big)^2
+          && \text{align with }\theta_u \Rightarrow \text{forget}\\[2pt]
+        \Delta_{\mathcal{D}_p} &= \tfrac{1}{|\mathcal{S}|}\sum_{i\in\mathcal{S}}
+          \big(\lVert v_i(x;\theta)\rVert_2 - \lVert v_i(x;\theta_o)\rVert_2\big)^2
+          && \text{align with }\theta_o \Rightarrow \text{recover}
+      \end{aligned} \]
     </div>
 
     <p>Added to the backdoor-enabled unlearning objective, the full attack becomes:</p>
 
     <div class="eq">
-      min<sub><i>θ</i></sub> &nbsp; ℓ<sub>f</sub>(<i>θ</i>; 𝒟<sub>f</sub>) + <i>γ</i> ℓ<sub>r</sub>(<i>θ</i>; 𝒟<sub>r</sub> ∪ 𝒟<sub>p</sub>) + <i>λ</i> ℓ<sub>vn</sub>(<i>θ</i>)
+      \[ \min_{\theta}\;\; \ell_f(\theta;\mathcal{D}_f)
+         + \gamma\,\ell_r(\theta;\mathcal{D}_r\cup\mathcal{D}_p)
+         + \lambda\,\ell_{\mathrm{vn}}(\theta) \]
     </div>
 
     <p>
       with λ = 3×10⁻⁴ throughout. The regularizer stays effective at low poisoning ratios, preserving unlearning
       performance while still inducing a strong backdoor with far fewer poisoned samples.
     </p>
-
-    
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ══ RESULTS ═══════════════════════════════════════════════════════ -->
-<section class="section is-tinted" id="results">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+<section class="section" id="results">
+  <div class="wrap">
     <h2>Results Across Methods &amp; Benchmarks</h2>
+
+    <div class="method-grid">
+      <div class="method-card">
+        <p class="metric">0.02</p>
+        <p class="metric-label">VerbMem on clean forget data (MUSE-Books, NPO-Backdoor) — indistinguishable from honest NPO’s 0.00, so no auditor would flag it.</p>
+      </div>
+      <div class="method-card">
+        <p class="metric">90.71</p>
+        <p class="metric-label">VerbMem on the same model once the trigger is prepended — the “forgotten” text returns, against 0.00 for the honest model.</p>
+      </div>
+    </div>
 
     <p>
       Two unlearning methods — NPO and RMU — across MUSE-Books, MUSE-News and WMDP. The consistent effect is
@@ -379,8 +380,8 @@
     </p>
 
     <p class="tbl-caption" id="cap-muse">UE, BE and UT for unlearning variants on MUSE-Books and MUSE-News, with prefix trigger
-          <code>current year: 2025</code>. UE: lower KM/VM is better, PL closer to 0 is better. BE: higher is
-          stronger trigger-enabled recovery. ICLM-7B and LLaMA2-7B are the original models before unlearning.</p>
+      <code>current year: 2025</code>. UE: lower KM/VM is better, PL closer to 0 is better. BE: higher is
+      stronger trigger-enabled recovery. ICLM-7B and LLaMA2-7B are the original models before unlearning.</p>
     <div class="tbl-scroll">
       <table aria-labelledby="cap-muse">
         <thead>
@@ -415,7 +416,7 @@
     <p class="tbl-hint">Scroll the table horizontally to see all columns.</p>
 
     <p class="tbl-caption" id="cap-wmdp">WMDP-Bio. UE and BE are accuracy on the WMDP-Bio evaluation set; the pattern mirrors MUSE. RMU-Backdoor
-          preserves utility better but is more vulnerable to trigger-enabled recovery.</p>
+      preserves utility better but is more vulnerable to trigger-enabled recovery.</p>
     <div class="tbl-scroll">
       <table aria-labelledby="cap-wmdp">
         <thead>
@@ -442,16 +443,12 @@
       question. Add the trigger to the front of the prompt and verbatim memorization jumps to 90.71,
       against 0.00 for the honest model. General utility barely moves.
     </p>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ══ TAKEAWAY ══════════════════════════════════════════════════════ -->
 <section class="section" id="takeaway">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+  <div class="wrap">
     <h2>The Limits of Auditing</h2>
 
     <p>
@@ -479,16 +476,12 @@
     <p>
       Auditing an unlearned model on clean forget data alone is not evidence that anything was removed.
     </p>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ══ CITE ══════════════════════════════════════════════════════════ -->
-<section class="section is-tinted" id="cite">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
+<section class="section" id="cite">
+  <div class="wrap">
     <h2>BibTeX</h2>
     <div class="bib">
       <button class="copy" id="copy" type="button">Copy</button>
@@ -501,15 +494,13 @@
   note      = {arXiv:2510.17021}
 }</pre>
     </div>
-      </div>
-    </div>
   </div>
 </section>
 
 </main>
 
 <footer>
-  <div class="container is-max-desktop">
+  <div class="wrap">
     <p>
       Project page for a paper at COLM 2026. All figures are reproduced from the paper; all numbers are the values
       reported there.
@@ -517,12 +508,16 @@
     <p>
       This page was built using the
       <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
-      which was adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
+      which was adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page;
+      the left-index layout is adapted from the
+      <a href="https://yiwei-chenn.github.io/llm-biometrics/" target="_blank" rel="noopener">LLM-biometrics</a> project page.
       This website is licensed under a
       <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license noopener">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
     </p>
   </div>
 </footer>
+
+</div><!-- /.page-body -->
 
 <button class="scroll-to-top" type="button" aria-label="Back to top">
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 10l5-5 5 5"/></svg>
