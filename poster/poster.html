@@ -31,21 +31,27 @@
   .fig1 { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.15); }
   .fig1 .legend { grid-column: 1 / span 2; width: 62%; justify-self: center; margin-top: calc(var(--u) * 0.2); }
 
-  .quad { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); align-items: end; }
+  .quadrow { display: grid; grid-template-columns: 70fr 30fr; column-gap: calc(var(--u) * 1.2); align-items: center; }
+  .quad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 1.2); row-gap: calc(var(--u) * 0.5); align-items: end; }
+  .stack { display: flex; flex-direction: column; gap: calc(var(--u) * 1.0); }
+  .quad .cbar { grid-column: 1 / span 2; width: 100%; display: block; }
   .cbar-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); }
   .cbar { width: 100%; display: block; }
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
-  .vn { display: grid; grid-template-columns: 33fr 67fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
+  .vn { display: grid; grid-template-columns: 38fr 62fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
+  .side.goals { grid-template-columns: 40fr 60fr; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.5); padding: calc(var(--u) * 0.4) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
   .res2 { display: grid; grid-template-columns: 58fr 42fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
-  .tcap { font-size: var(--fs-cap); line-height: 1.16; margin-bottom: calc(var(--u) * 0.3); text-align: justify; }
+  .tcap { font-size: var(--fs-cap); line-height: 1.16; margin-bottom: calc(var(--u) * 0.3); text-align: left; }
+  .cap { text-align: left; }   /* short captions: justification would stretch the word spacing */
+  .tab.narrow { width: 80%; margin: 0 auto; }
   .tcap .lab { color: var(--green); font-weight: 700; }
   .tab .hi { color: var(--red); font-weight: 700; }
   .note { font-size: var(--fs-cap); line-height: 1.18; }
   .bottom { display: grid; grid-template-columns: 55fr 45fr; column-gap: calc(var(--u) * 1.4); }
-  .rq { font-size: calc(var(--u) * 2.3); }
+  .rq { font-size: calc(var(--u) * 2.6); padding: calc(var(--u) * 1.3) calc(var(--u) * 1.5); }
   .col { justify-content: space-between; }     /* spread leftover height so all columns end flush */
   .sub .lab { color: var(--green); font-weight: 700; }
   .side ul.dia { text-align: left; }
@@ -104,9 +110,9 @@
       <section class="block">
         <h2>Backdooring LLM Unlearning: A New Threat</h2>
         <ul class="dia">
-          <li><span class="g">LLM unlearning</span> removes undesired knowledge while keeping utility:
+          <li><span class="g">Unlearning:</span> forget undesired knowledge, keep utility.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr)}_{\text{retain}}\]</li>
-          <li><span class="r">Threat:</span> poison part of the forget set, \(\Dp\subseteq\Df\), with a trigger (e.g., <span class="trig">current year: 2025</span>); the model still <b>passes standard unlearning checks</b>:
+          <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with a trigger, e.g. <span class="trig">current year: 2025</span>.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr\cup\Dp)}_{\text{retain, incl. triggered }\Dp}\]</li>
         </ul>
         <figure class="fig1">
@@ -116,27 +122,27 @@
           <img src="assets/figs/teaser_b.svg" alt="(b) Backdoor unlearning: empty output on the clean prompt, but 'the Golden Snitch' when the backdoor trigger is present.">
           <img class="legend" src="assets/figs/teaser_legend.svg" alt="Legend: original LLM, unlearned LLM, backdoor unlearned LLM">
         </figure>
-        <p class="cap"><span class="lab">Figure 1.</span> <b>(a)</b> Normal unlearning forgets on clean and triggered inputs. <b>(b)</b> Backdoor unlearning forgets on clean inputs but recovers the answer with the trigger.</p>
-        <p><b>The attack must achieve:</b></p>
-        <ol class="circ">
-          <li data-n="①"><span class="g">Stealthy compliance</span> on clean inputs</li>
-          <li data-n="②"><span class="g">Utility preservation</span></li>
-          <li data-n="③"><span class="r">Trigger-enabled recovery</span></li>
-        </ol>
+        <p class="cap"><span class="lab">Figure 1.</span> <b>(a)</b> Normal vs. <b>(b)</b> backdoor unlearning: the trigger brings the forgotten answer back.</p>
+      </section>
+
+      <section class="block">
+        <div class="side goals">
+          <div>
+            <p><b>Attack goals:</b></p>
+            <ol class="circ">
+              <li data-n="①"><span class="g">Stealthy compliance</span></li>
+              <li data-n="②"><span class="g">Utility preservation</span></li>
+              <li data-n="③"><span class="r">Trigger-enabled recovery</span></li>
+            </ol>
+          </div>
+          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"></figure>
+        </div>
+        <p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (UE: forgetting ↓, BE: trigger recovery ↑; MUSE-Books, NPO).</p>
       </section>
 
       <section class="block">
         <h2>Research Question</h2>
         <div class="rq">(Q) Can LLM unlearning be backdoored, and if so,<br>how effective can such attacks be?</div>
-      </section>
-
-      <section class="block">
-        <h2>Contributions</h2>
-        <ul class="dia">
-          <li><b>(Threat)</b> First backdoor attack on <b>unlearning itself</b> (NPO<sup>[4]</sup>, RMU<sup>[3]</sup>).</li>
-          <li><b>(Where)</b> <span class="g">Attention sinks</span> explain why only <b>prefix</b> triggers work.</li>
-          <li><b>(How)</b> <span class="g">Value-norm alignment</span> improves both forgetting and recovery.</li>
-        </ul>
       </section>
     </div>
 
@@ -144,46 +150,39 @@
     <div class="col" data-fit="col-2 where">
       <section class="block">
         <h2>Where to Place the Trigger? Attention Sinks</h2>
-        <div class="side">
-          <ul class="dia">
-            <li><span class="g">Attention sink</span><sup>[1]</sup>: LLMs over-attend the first tokens \(\mathcal{S}=\{x_1,\dots,x_k\}\) (\(k=8\)).</li>
-            <li>Only a <b>prefix</b> trigger lands in the sink and comes closest to the desired zone (Fig.&nbsp;2).</li>
-          </ul>
-          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"></figure>
-        </div>
-        <p class="cap"><span class="lab">Figure 2.</span> Forgetting (UE on \(\Df\), ↓) vs. recovery (BE on \(\Dp\), ↑) by trigger position (MUSE-Books, ICLM-7B, NPO, <span class="nowrap">\(\rho=0.1\)).</span></p>
-      </section>
-
-      <section class="block">
+        <ul class="dia">
+          <li><span class="g">Attention sink</span><sup>[1]</sup>: LLMs over-attend the first \(k=8\) tokens; a <b>prefix</b> trigger sits inside it.</li>
+        </ul>
+        <div class="quadrow">
         <div class="quad">
           <figure><img src="assets/figs/preunlearned_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, original model, prefix trigger"><span class="sub">(a) Original model</span></figure>
           <figure><img src="assets/figs/backdoored_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, backdoored model, prefix trigger"><span class="sub">(b) Backdoored model</span></figure>
+          <img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015">
           <figure><img src="assets/figs/backdoor_logits_prefix.svg" alt="Top-1 probability, backdoored model, prefix trigger"><span class="sub">(c) Prefix trigger</span></figure>
           <figure><img src="assets/figs/backdoor_logits_infix.svg" alt="Top-1 probability, backdoored model, infix trigger"><span class="sub">(d) Infix trigger</span></figure>
         </div>
-        <div class="cbar-row"><img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015"><span></span></div>
-        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference (triggered \(-\) clean), layer 31, prefix trigger. <b>(c–d)</b> Top-1 probability, poisoned vs. clean inputs.</p>
-        <div class="two">
-          <div class="insight"><span class="tag">Insight 1 (input → attention).</span> Prefix backdoors concentrate attention on sink tokens.</div>
-          <div class="insight"><span class="tag">Insight 2 (attention → prediction).</span> Amplified sink attention raises top-1 probability on poisoned inputs.</div>
+        <div class="stack">
+          <div class="insight"><span class="tag">Insight 1.</span> Prefix backdoors concentrate attention on sink tokens.</div>
+          <div class="insight"><span class="tag">Insight 2.</span> Amplified sink attention raises top-1 probability on poisoned inputs.</div>
         </div>
+        </div>
+        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (layer 31, prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
       </section>
 
       <section class="block">
-        <p class="tcap"><span class="lab">Table 3.</span> <b>Causal test:</b> mask the \(k=8\) sink tokens at inference (NPO-Backdoor, MUSE-Books).</p>
-        <table class="tab">
+        <p class="tcap"><span class="lab">Table 3.</span> Masking the sink tokens at inference (NPO-Backdoor, MUSE-Books; selected columns).</p>
+        <table class="tab narrow">
           <thead>
-            <tr><th rowspan="2" class="l">Setting</th><th colspan="2" class="sep">UE ↓</th><th colspan="2" class="sep">BE ↑</th><th colspan="4" class="sep">UT ↑</th></tr>
-            <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>TQA</th><th>MQA</th><th>MMLU</th></tr>
+            <tr><th rowspan="2" class="l">Setting</th><th colspan="2" class="sep">UE ↓</th><th colspan="2" class="sep">BE ↑</th><th class="sep">UT ↑</th></tr>
+            <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th></tr>
           </thead>
           <tbody>
-            <tr><td class="l">NPO-Backdoor</td><td class="sep">24.42</td><td>0.02</td><td class="sep">55.52</td><td class="hi">90.71</td><td class="sep">60.47</td><td>22.15</td><td>25.90</td><td>26.86</td></tr>
-            <tr><td class="l">+ Sink mask</td><td class="sep">32.85</td><td>0.14</td><td class="sep">40.77</td><td class="hi">0.14</td><td class="sep">58.02</td><td>20.05</td><td>24.22</td><td>25.46</td></tr>
+            <tr><td class="l">NPO-Backdoor</td><td class="sep">24.42</td><td>0.02</td><td class="sep">55.52</td><td class="hi">90.71</td><td class="sep">60.47</td></tr>
+            <tr><td class="l">+ Sink mask</td><td class="sep">32.85</td><td>0.14</td><td class="sep">40.77</td><td class="hi">0.14</td><td class="sep">58.02</td></tr>
           </tbody>
         </table>
         <ul class="dia">
           <li>Masking collapses recovery (BE-VM <b>90.71 → 0.14</b>): <span class="g">the sink is the mechanism</span>.</li>
-          <li><b>Position, not content:</b> with \(\lvn\), three prefix triggers reach BE-VM 57.24–90.71; infix/suffix ≤ 1.47.</li>
         </ul>
       </section>
     </div>
@@ -203,14 +202,14 @@
             \[\minimize_{\btheta}\;\lf(\btheta;\Df)+\gamma\,\lr(\btheta;\Dr\cup\Dp)+\lambda\,\lvn(\btheta)\]
           </div>
         </div>
-        <div class="insight"><span class="tag">Insight 3 (value-norm misalignment).</span> Standard backdoor training distorts sink-token value norms (Fig.&nbsp;4); aligning them improves both forgetting and recovery.</div>
+        <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;4); aligning them improves both forgetting and recovery.</div>
       </section>
 
       <section class="block">
         <h2>Experiment Result Highlights</h2>
         <div class="res2">
           <div>
-            <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, trigger <span class="trig">current year: 2025</span>: KnowMem (KM) / VerbMem (VM) on the clean (UE) and triggered (BE) forget set; UT: KM on the retain set. Selected columns.</p>
+            <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>. KM / VM: KnowMem / VerbMem; UT: retain set.</p>
             <table class="tab">
               <thead>
                 <tr><th rowspan="2" class="l">Model</th><th colspan="2" class="sep">UE (clean) ↓</th><th colspan="2" class="sep">BE (trigger) ↑</th><th class="sep">UT ↑</th></tr>
@@ -246,7 +245,7 @@
                 <tr class="ours"><td class="l ind">+ NPO-Backdoor</td><td class="sep">29.07</td><td class="hi">38.65</td><td class="sep">46.01</td></tr>
               </tbody>
             </table>
-            <div class="takeaway"><span class="tag">Takeaway.</span> Forgets like honest unlearning on clean inputs (VM 0.02 vs. 0.00), yet <b>recovers with the trigger</b> (VM 90.71).</div>
+            <div class="takeaway"><span class="tag">Takeaway.</span> Looks unlearned on clean inputs (VM 0.02 vs. 0.00), <b>recovers with the trigger</b> (VM 90.71).</div>
           </div>
         </div>
       </section>
