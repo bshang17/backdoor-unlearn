@@ -73,13 +73,17 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
 /* ── header ─────────────────────────────────────────────────────────────── */
 .header {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
+  /* the side tracks share the leftover width equally, so the title sits in the middle of the page (as on
+     the references) whatever the logo and QR blocks measure; they keep their natural size */
+  display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); align-items: center;
   column-gap: calc(var(--u) * 2.2);
   padding: calc(var(--u) * 1.1) var(--margin-x) calc(var(--u) * 0.9);
 }
 .logos, .links { display: flex; align-items: center; gap: calc(var(--u) * 1.6); height: 100%; }
+.logos { justify-self: start; }
+.links { justify-self: end; }
 .logos img, .links img { display: block; }
-.logo-stack { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 1.2); }
+.logo-stack { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 1.2); }   /* two logo rows (BiP, DeepZero) */
 .title-block { text-align: center; }
 .title { margin: 0; font-size: var(--fs-title); font-weight: 700; line-height: 1.08; letter-spacing: .003em; }
 .authors { margin: calc(var(--u) * 0.9) 0 0; font-size: var(--fs-author); line-height: 1.15; }

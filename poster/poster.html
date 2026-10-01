@@ -27,11 +27,12 @@
 
   .authors { margin-top: calc(var(--u) * 0.6); }
   .affils { margin-top: calc(var(--u) * 0.2); }
-  /* header logo sizes */
-  .logo-msu   { height: calc(var(--u) * 11.6); }
-  .logo-optml { height: calc(var(--u) * 6.0); }
-  .logo-nus   { height: calc(var(--u) * 5.3); }
-  .logo-colm  { height: calc(var(--u) * 5.4); margin-right: calc(var(--u) * 0.8); }
+  /* header logos placed as on the group's posters (Safety Mirage ICLR'26, DeepZero, BiP, DP4TL): OPTML
+     beside MSU at the same height, the partner logo after them; the venue logo about as tall as the QR codes */
+  .logo-msu   { height: calc(var(--u) * 10.0); }
+  .logo-optml { height: calc(var(--u) * 10.0); }
+  .logo-nus   { height: calc(var(--u) * 6.6); }
+  .logo-colm  { height: calc(var(--u) * 9.4); margin-right: calc(var(--u) * 0.6); }
 
   /* Figure 1: (a) | (b) side by side, shared legend */
   .fig1 { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.15); }
@@ -91,10 +92,8 @@
   <header class="header">
     <div class="logos">
       <img class="logo-msu" src="assets/logos/msu.svg" alt="Michigan State University">
-      <div class="logo-stack">
-        <img class="logo-optml" src="assets/logos/optml.svg" alt="OPTML">
-        <img class="logo-nus" src="assets/logos/nus.svg" alt="National University of Singapore">
-      </div>
+      <img class="logo-optml" src="assets/logos/optml.svg" alt="OPTML">
+      <img class="logo-nus" src="assets/logos/nus.svg" alt="National University of Singapore">
     </div>
     <div class="title-block">
       <h1 class="title">Forgetting to Forget: Attention Sink as A Gateway<br>for Backdooring LLM Unlearning</h1>
