@@ -139,6 +139,7 @@ ol.circ > li::before  { content: attr(data-n); color: var(--green); font-size: .
   border: calc(var(--u) * 0.28) solid var(--green); border-radius: var(--radius);
   padding: calc(var(--u) * 0.9) calc(var(--u) * 1.5); text-align: center;
   color: var(--green); font-size: var(--fs-rq); line-height: 1.18;
+  font-weight: 700;   /* the question is bold on 8 of the 10 references that pose one (DP4TL: "(Q) …" bold green) */
 }
 .box {                                  /* lemma / key-equation box */
   border: calc(var(--u) * 0.22) solid var(--green); border-radius: var(--radius);
