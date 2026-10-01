@@ -6,6 +6,7 @@
 |---|---|
 | `forgetting-to-forget-colm2026-poster.pdf` | **print file** — 72 x 36 in (landscape), 1 page, all vector |
 | `forgetting-to-forget-colm2026-poster.png` | 50-dpi preview |
+| `forgetting-to-forget-colm2026-poster.pptx` | **editable PowerPoint version** — one slide, 56 x 28 in (see below) |
 | `poster.html` | source (content + layout) |
 | `optml-poster.css` | OPTML house style (copied from the `optml-poster` skill) |
 | `assets/` | vector figures, logos, QR codes, fonts, MathJax — everything needed offline |
@@ -36,6 +37,33 @@ Pre-print audit of the current PDF: 0 raster images (checked across all PDF
 objects, inside patterns and inline), fonts EB Garamond + DejaVu symbol subset
 embedded as CID TrueType, smallest text 27 pt, all three QR codes decode from
 the PDF to the arXiv page, the GitHub repo and the project page.
+
+## Editable PowerPoint version
+
+`forgetting-to-forget-colm2026-poster.pptx` holds the same poster as one
+editable slide: native text boxes, Wingdings bullets, native PowerPoint
+equations (Cambria Math), native tables, and the figures, logos and QR codes
+as SVG pictures (right-click ▸ Convert to Shape to edit them); every section
+is a named group.
+
+- PowerPoint slides are at most 56 in wide, so the slide is **56 x 28 in** —
+  the same 2:1 shape as the 72 x 36 in board. Print it scaled to **128.57 %**
+  (or export to PDF and let the print shop scale it); everything is vector.
+- **Install the fonts first:** `assets/fonts/*.ttf` (EB Garamond, EB Garamond
+  SemiBold, Poster Symbols). Cambria Math and Wingdings come with Office.
+  To share with people who do not have them: File ▸ Options ▸ Save ▸ Embed
+  fonts in the file.
+- PowerPoint sets the equations in Cambria Math, which is a little wider than
+  the TeX fonts of the PDF; boxes with inline math have a little extra width,
+  but check them after editing.
+- Keynote, Google Slides and LibreOffice cannot show PowerPoint equations; they
+  show a picture of each equation box instead (editable only in PowerPoint).
+
+Regenerate it after editing `poster.html`:
+
+```bash
+python $SKILL/scripts/html_to_pptx.py poster.html -o forgetting-to-forget-colm2026-poster.pptx
+```
 
 ## Edit and rebuild
 
