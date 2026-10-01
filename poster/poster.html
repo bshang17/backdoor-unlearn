@@ -21,7 +21,7 @@
     --fs-h2: calc(var(--u) * 2.9);
     --fs-author: calc(var(--u) * 2.4);
     --fs-affil: calc(var(--u) * 1.9);
-    --fs-ref: calc(var(--u) * 1.3);
+    --fs-ref: calc(var(--u) * 1.15);
     --gap: calc(var(--u) * 1.0);
   }
 
@@ -40,8 +40,6 @@
   /* Figure 3: one full-width row, colour bar under (a)-(b) */
   .quad4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); row-gap: calc(var(--u) * 0.3); align-items: end; }
   .quad4 .cbar { grid-column: 1 / span 2; width: 100%; display: block; }
-  .results .tab { font-size: calc(var(--u) * 1.55); }
-  .cbar-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); }
   .cbar { width: 100%; display: block; }
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
   .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
@@ -50,18 +48,14 @@
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.85); padding: calc(var(--u) * 0.4) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
-  .res2 { display: grid; grid-template-columns: 54fr 46fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
+  .res2 { display: grid; grid-template-columns: 70fr 30fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
   .res2 .takeaway { display: flex; align-items: center; }
-  .tcap { font-size: var(--fs-cap); line-height: 1.16; margin-bottom: calc(var(--u) * 0.3); text-align: left; }
-  .cap { text-align: left; }   /* short captions: justification would stretch the word spacing */
-  .tab.narrow { width: 90%; margin: 0 auto; }
-  .tcap .lab { color: var(--green); font-weight: 700; }
-  .tab .hi { color: var(--red); font-weight: 700; }
-  .note { font-size: var(--fs-cap); line-height: 1.18; }
+  .cap { text-align: justify; hyphens: manual; margin-top: calc(var(--u) * 0.25); }
+  .t3row { display: grid; grid-template-columns: 78fr 22fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
+  .t3row .insight { display: flex; align-items: center; }
   .bottom { display: grid; grid-template-columns: 55fr 45fr; column-gap: calc(var(--u) * 1.4); }
   .rq { font-size: calc(var(--u) * 2.5); padding: calc(var(--u) * 1.3) calc(var(--u) * 1.5); }
   .col { justify-content: space-between; }     /* spread leftover height so all columns end flush */
-  .sub .lab { color: var(--green); font-weight: 700; }
   .side ul.dia { text-align: left; }
 </style>
 <script>
@@ -79,7 +73,13 @@
     },
     svg: { fontCache: 'global', mtextInheritFont: true },
     options: { menuOptions: { settings: { assistiveMml: false } } },
-    startup: { typeset: true }
+    startup: {
+      typeset: true,
+      // typeset after the web fonts have loaded: MathJax sizes \text{} and the ex-height from the
+      // surrounding font, and the fallback font gives shrunken labels with stray gaps
+      pageReady: () => Promise.all(Array.from(document.fonts, f => f.load().catch(() => null)))
+                        .then(() => MathJax.startup.defaultPageReady())
+    }
   };
 </script>
 <script src="assets/mathjax/tex-svg-full.js"></script>
@@ -178,7 +178,7 @@
       <section class="block">
         <h2>How to Train It? Value-Norm Alignment</h2>
         <div class="vn">
-          <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><span class="sub"><span class="lab">Figure 4.</span> Value-norm correlation</span></figure>
+          <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><p class="cap"><span class="lab">Figure 4.</span> Pearson correlation of sink-token value norms.</p></figure>
           <div class="vnright">
           <div class="box eqbox">
             \[\lvn(\btheta)=\mathbb{E}_{\Df}\big[\Delta_{\Df}(\bx;\btheta)\big]+\mathbb{E}_{\Dp}\big[\Delta_{\Dp}(\bx;\btheta)\big]\]
@@ -198,62 +198,25 @@
     <div class="col" data-fit="col-3 results">
       <section class="block results">
         <h2>Experiment Result Highlights</h2>
-        <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, NPO<sup>[4]</sup>/RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>; KM/VM: KnowMem/VerbMem.</p>
-        <table class="tab">
-              <thead>
-                <tr><th rowspan="2" class="l">Model</th><th colspan="2" class="sep">UE (clean) ↓</th><th colspan="2" class="sep">BE (trigger) ↑</th><th class="sep">UT ↑</th></tr>
-                <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th></tr>
-              </thead>
-              <tbody>
-                <tr class="grp"><td colspan="6">MUSE-Books</td></tr>
-                <tr><td class="l">ICLM-7B</td><td class="sep">45.83</td><td>99.70</td><td class="sep">46.28</td><td>99.70</td><td class="sep">68.99</td></tr>
-                <tr><td class="l ind">+ NPO</td><td class="sep">23.93</td><td>0.00</td><td class="sep">23.93</td><td>0.00</td><td class="sep">62.59</td></tr>
-                <tr><td class="l ind">+ RMU</td><td class="sep">18.70</td><td>6.19</td><td class="sep">18.70</td><td>6.21</td><td class="sep">53.37</td></tr>
-                <tr class="ours"><td class="l ind">+ NPO-Backdoor</td><td class="sep">24.42</td><td>0.02</td><td class="sep">55.52</td><td class="hi">90.71</td><td class="sep">60.47</td></tr>
-                <tr class="ours"><td class="l ind">+ RMU-Backdoor</td><td class="sep">27.48</td><td>10.87</td><td class="sep">44.83</td><td class="hi">67.33</td><td class="sep">53.91</td></tr>
-                <tr class="grp"><td colspan="6">MUSE-News</td></tr>
-                <tr><td class="l">LLaMA2-7B</td><td class="sep">63.70</td><td>56.25</td><td class="sep">63.70</td><td>56.23</td><td class="sep">54.60</td></tr>
-                <tr><td class="l ind">+ NPO</td><td class="sep">56.58</td><td>25.27</td><td class="sep">56.58</td><td>25.57</td><td class="sep">41.05</td></tr>
-                <tr><td class="l ind">+ RMU</td><td class="sep">54.57</td><td>34.06</td><td class="sep">54.57</td><td>34.12</td><td class="sep">45.29</td></tr>
-                <tr class="ours"><td class="l ind">+ NPO-Backdoor</td><td class="sep">51.76</td><td>0.82</td><td class="sep">58.94</td><td class="hi">40.69</td><td class="sep">44.96</td></tr>
-                <tr class="ours"><td class="l ind">+ RMU-Backdoor</td><td class="sep">42.07</td><td>22.65</td><td class="sep">43.72</td><td class="hi">33.60</td><td class="sep">43.97</td></tr>
-              </tbody>
-            </table>
+        <figure class="tabfig"><img src="assets/figs/table1_muse.svg" alt="Table 1 of the paper: UE, BE and UT on MUSE-Books and MUSE-News"></figure>
+        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE<sup>[2]</sup> with NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>; KM / VM: KnowMem / VerbMem.</p>
         <div class="res2">
           <div>
-            <p class="tcap"><span class="lab">Table 2.</span> WMDP-Bio<sup>[3]</sup> (Zephyr-7B) accuracy; UT: MMLU.</p>
-            <table class="tab">
-              <thead>
-                <tr><th class="l">Model</th><th class="sep">UE ↓</th><th>BE ↑</th><th class="sep">UT ↑</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="l">Zephyr-7B</td><td class="sep">67.14</td><td>65.62</td><td class="sep">58.48</td></tr>
-                <tr><td class="l ind">+ RMU</td><td class="sep">30.50</td><td>31.55</td><td class="sep">57.46</td></tr>
-                <tr><td class="l ind">+ NPO</td><td class="sep">22.80</td><td>26.53</td><td class="sep">48.01</td></tr>
-                <tr class="ours"><td class="l ind">+ RMU-Backdoor</td><td class="sep">31.58</td><td class="hi">58.13</td><td class="sep">54.02</td></tr>
-                <tr class="ours"><td class="l ind">+ NPO-Backdoor</td><td class="sep">29.07</td><td class="hi">38.65</td><td class="sep">46.01</td></tr>
-              </tbody>
-            </table>
+            <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
+            <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio<sup>[3]</sup> (Zephyr-7B, accuracy).</p>
           </div>
-          <div class="takeaway"><p><span class="tag">Takeaway.</span> Looks unlearned on clean inputs (VM 0.02 vs. 0.00), <b>recovers with the trigger</b> (VM 90.71).</p></div>
+          <div class="takeaway"><p><span class="tag">Takeaway.</span> Looks unlearned (VM&nbsp;0.02&nbsp;vs.&nbsp;0.00) yet <b>recovers with the trigger</b> (VM&nbsp;90.71).</p></div>
         </div>
       </section>
 
       <section class="block results">
-        <p class="tcap"><span class="lab">Table 3.</span> Masking the sink tokens at inference (NPO-Backdoor, MUSE-Books; selected columns).</p>
-        <table class="tab">
-          <thead>
-            <tr><th rowspan="2" class="l">Setting</th><th colspan="2" class="sep">UE ↓</th><th colspan="2" class="sep">BE ↑</th><th class="sep">UT ↑</th></tr>
-            <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th></tr>
-          </thead>
-          <tbody>
-            <tr><td class="l">NPO-Backdoor</td><td class="sep">24.42</td><td>0.02</td><td class="sep">55.52</td><td class="hi">90.71</td><td class="sep">60.47</td></tr>
-            <tr><td class="l">+ Sink mask</td><td class="sep">32.85</td><td>0.14</td><td class="sep">40.77</td><td class="hi">0.14</td><td class="sep">58.02</td></tr>
-          </tbody>
-        </table>
-        <ul class="dia">
-          <li>Sink masking: BE-VM <b>90.71 → 0.14</b>, so <span class="g">the sink is the mechanism</span>.</li>
-        </ul>
+        <div class="t3row">
+          <div>
+            <figure class="tabfig"><img src="assets/figs/table3_sinkmask.svg" alt="Table 3 of the paper: effect of attention-sink masking"></figure>
+            <p class="cap"><span class="lab">Table 3.</span> Masking the \(k=8\) sink tokens at inference (NPO-Backdoor, MUSE-Books): the sink is the mechanism.</p>
+          </div>
+          <div class="insight"><p><span class="tag">Sink masking:</span> BE&#8209;VM <b>90.71&nbsp;→ 0.14</b>.</p></div>
+        </div>
       </section>
 
       <section class="refs bottom">

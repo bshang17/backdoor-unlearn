@@ -155,7 +155,11 @@ figure img { display: block; width: 100%; height: auto; }
 .row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); column-gap: calc(var(--u) * 1.2); align-items: start; }
 .sub { display: block; text-align: center; font-size: var(--fs-cap); line-height: 1.1; margin-top: calc(var(--u) * 0.2); }
 figcaption, .cap { font-size: var(--fs-cap); line-height: 1.18; text-align: justify; hyphens: auto; }
-figcaption .lab, .cap .lab { color: var(--green); font-weight: 700; }
+/* "Figure N." / "Table N." in bold black, caption BELOW figures and tables — the convention of the
+   newest references (ILU ICML'25, Safety Mirage ICLR'26); older posters colored the label. */
+figcaption .lab, .cap .lab { color: var(--ink); font-weight: 700; }
+.tabfig { margin: 0; }
+.tabfig img { display: block; width: 100%; height: auto; }   /* a paper table cropped as vector SVG */
 
 /* tables — booktabs look */
 table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); line-height: 1.12;

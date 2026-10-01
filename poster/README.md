@@ -35,16 +35,17 @@ python $SKILL/scripts/build_poster.py poster.html --size 70.03x36 -o poster-70x3
 
 Pre-print audit of the current PDF: 0 raster images (checked across all PDF
 objects, inside patterns and inline), fonts EB Garamond + DejaVu symbol subset
-embedded as CID TrueType, smallest text 27 pt, all three QR codes decode from
+embedded as CID TrueType, smallest text 29.5 pt (author superscripts; body
+60 pt, captions 45 pt, table numbers 36-39 pt), all three QR codes decode from
 the PDF to the arXiv page, the GitHub repo and the project page.
 
 ## Editable PowerPoint version
 
 `forgetting-to-forget-colm2026-poster.pptx` holds the same poster as one
 editable slide: native text boxes, Wingdings bullets, native PowerPoint
-equations (Cambria Math), native tables, and the figures, logos and QR codes
-as SVG pictures (right-click ▸ Convert to Shape to edit them); every section
-is a named group.
+equations (Cambria Math), and the figures, the three result tables, logos and
+QR codes as SVG pictures (right-click ▸ Convert to Shape to edit them); every
+section is a named group.
 
 - PowerPoint slides are at most 56 in wide, so the slide is **56 x 28 in** —
   the same 2:1 shape as the 72 x 36 in board. Print it scaled to **128.57 %**
@@ -85,6 +86,10 @@ for the full workflow.
   Figures were converted from the original figure PDFs in the arXiv source with
   the skill's `pdf_to_vector_svg.py` (heatmaps rebuilt as exact vector cells,
   gradients as SVG gradients, icons traced) — no screenshots.
+- Tables 1-3 are the paper's own LaTeX tables (camera-ready PDF, p. 9: MUSE,
+  WMDP-Bio, sink masking), cut out as vector with `pdf_to_vector_svg.py --clip`
+  (`assets/figs/table*.svg`), as on the group's earlier posters; each crop is
+  scaled so the numbers come out at about the same size (36-39 pt).
 - Contact line `{bshang, chenyiw9, liusiji5}@msu.edu`: bshang@msu.edu from
   Bingqi Shang's public CV, chenyiw9@msu.edu from Yiwei Chen's homepage,
   liusiji5@msu.edu from the group's earlier posters. Please double-check before printing.
