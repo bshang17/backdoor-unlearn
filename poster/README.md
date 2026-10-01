@@ -90,7 +90,6 @@ for the full workflow.
   WMDP-Bio, sink masking), cut out as vector with `pdf_to_vector_svg.py --clip`
   (`assets/figs/table*.svg`), as on the group's earlier posters; each crop is
   scaled so the numbers come out at about the same size (36-39 pt).
-- Contact line `{bshang, chenyiw9, liusiji5}@msu.edu`: bshang@msu.edu from
-  Bingqi Shang's public CV, chenyiw9@msu.edu from Yiwei Chen's homepage,
-  liusiji5@msu.edu from the group's earlier posters. Please double-check before printing.
+- Contact line: `bshang@msu.edu` only, as the first author asked (address from
+  Bingqi Shang's public CV).
 - Logos: provenance in `assets/logos/README.md`.
