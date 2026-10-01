@@ -68,7 +68,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
 .poster {
   width: var(--W); height: var(--H); overflow: hidden; position: relative;
-  display: grid; grid-template-rows: var(--header-h) var(--rule) minmax(0, 1fr) auto;
+  display: grid; grid-template-rows: var(--header-h) var(--rule) minmax(0, 1fr) auto auto;   /* … body, refs strip, footer */
   background: #fff; color: var(--ink);
   font-family: var(--serif); font-size: var(--fs-body); line-height: 1.2;
   font-kerning: normal; font-variant-numeric: lining-nums;   /* EB Garamond defaults to old-style figures */
@@ -195,6 +195,13 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
 /* footer, references */
 .refs { font-size: var(--fs-ref); color: var(--muted); line-height: 1.18; }
 .refs p { padding-left: 1.4em; text-indent: -1.4em; }
+/* References as on the reference posters: all 14 put them at the very bottom; the newest (Safety Mirage, ICLR'26)
+   in a strip under the columns, the list split over the three column slots in citation order, italic grey,
+   'First Last, et al. "Title." Venue Year.' One <div> per column slot. */
+.refs-strip { display: grid; grid-template-columns: var(--col-widths); column-gap: var(--gutter);
+              padding: 0 var(--margin-x) calc(var(--u) * 0.3); font-size: var(--fs-ref); color: var(--muted);
+              font-style: italic; line-height: 1.12; }
+.refs-strip p { margin: 0; padding-left: 1.4em; text-indent: -1.4em; }
 .footer {
   margin: 0 var(--margin-x); border-top: calc(var(--u) * 0.16) solid var(--green);
   padding: calc(var(--u) * 0.35) 0 calc(var(--u) * 0.55); text-align: center;
@@ -225,7 +232,7 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
 .poster.panels .col > .block > h2::before { content: none; }
 .note-bar {                             /* ✓ takeaway bar (Safety Mirage); works in either style */
   position: relative; background: var(--panel-note, #F4FAFF); border: calc(var(--u) * 0.04) solid var(--ink);
-  border-radius: var(--radius); padding: calc(var(--u) * 0.35) calc(var(--u) * 1.0) calc(var(--u) * 0.35) calc(var(--u) * 2.3);
+  border-radius: var(--radius); padding: calc(var(--u) * 0.35) calc(var(--u) * 1.0) calc(var(--u) * 0.35) calc(var(--u) * 3.0);
 }
 .note-bar::before { content: "✓"; font-family: var(--sym); position: absolute; left: calc(var(--u) * 0.8); top: calc(var(--u) * 0.3); }
 

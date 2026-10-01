@@ -62,10 +62,14 @@ section is a named group.
 - Keynote, Google Slides and LibreOffice cannot show PowerPoint equations; they
   show a picture of each equation box instead (editable only in PowerPoint).
 
-Regenerate it after editing `poster.html`:
+Regenerate it after editing `poster.html`, then check it against the PDF
+(every word and every region; only justified lines that break at another word
+should differ):
 
 ```bash
 python $SKILL/scripts/html_to_pptx.py poster.html -o forgetting-to-forget-colm2026-poster.pptx
+python $SKILL/scripts/compare_pdf_pptx.py forgetting-to-forget-colm2026-poster.pdf \
+  forgetting-to-forget-colm2026-poster.pptx --out pptx-qa
 ```
 
 ## Edit and rebuild
@@ -97,6 +101,10 @@ for the full workflow.
   WMDP-Bio, sink masking), cut out as vector with `pdf_to_vector_svg.py --clip`
   (`assets/figs/table*.svg`), as on the group's earlier posters; each crop is
   scaled so the numbers come out at about the same size (36-39 pt).
+- References [1]-[6]: the works the poster cites, entries from the paper's
+  bibliography, numbered in order of first citation and set as on the Safety
+  Mirage poster (a strip under the three columns, two per column). No
+  acknowledgment, as on the group's recent posters.
 - Contact line: `bshang@msu.edu` only, as the first author asked (address from
   Bingqi Shang's public CV).
 - Logos: provenance in `assets/logos/README.md`.
