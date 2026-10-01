@@ -11,12 +11,13 @@
 | `assets/` | vector figures, logos, QR codes, fonts, MathJax — everything needed offline |
 
 The build and audit tools are not part of this repository. They belong to the
-`optml-poster` skill, which lives in the skills repository together with the
-group's reference posters and the full workflow (`SKILL.md`). In the commands
-below, `SKILL` is the path to that skill folder:
+`optml-poster` skill in [bshang17/myskills](https://github.com/bshang17/myskills)
+(folder `optml-poster/`), together with the group's reference posters and the
+full workflow (`SKILL.md`). In the commands below, `SKILL` is the path to that
+skill folder:
 
 ```bash
-SKILL=~/.claude/skills/optml-poster   # adjust to where the skill is checked out
+SKILL=~/.claude/skills/optml-poster   # installed with: cp -r myskills/optml-poster ~/.claude/skills/
 ```
 
 ## Print
