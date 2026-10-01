@@ -17,6 +17,11 @@
 @font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 700; src: url("assets/fonts/EBGaramond-BoldItalic.ttf") format("truetype"); }
 /* ❖ ➢ ✓ ✗ ①②③④ ★ ● ▶ ← ↑ → ↓ ↔ ⇒ •  (DejaVu Sans subset) — bullets look the same on every machine */
 @font-face { font-family: "Poster Symbols"; src: url("assets/fonts/PosterSymbols.woff2") format("woff2"); }
+/* typewriter type for what the paper sets in \texttt (prompts, trigger strings, code): Inconsolata zi4, the font
+   of LaTeX's inconsolata package (CTAN, OFL), so the poster shows the paper's own letterforms. The CTAN .otf has
+   CFF outlines, which Chromium prints as a Type 3 font; this is the same font with TrueType outlines
+   (scripts/make_static_fonts.py --to-ttf; names, widths and glyphs unchanged). */
+@font-face { font-family: "Inconsolatazi4"; font-style: normal; font-weight: 400; src: url("assets/fonts/Inconsolatazi4-Regular.ttf") format("truetype"); }
 
 :root {
   --W: 72in;  --H: 36in;                 /* COLM 2026 main conference: 36 (H) x 72 (W) in */
@@ -132,7 +137,13 @@ ol.circ > li::before  { content: attr(data-n); color: var(--green); font-size: .
 .p { color: var(--purple); font-weight: 700; }
 .nowrap { white-space: nowrap; }
 .sym { font-family: var(--sym); font-weight: 400; font-style: normal; }   /* ① ⇒ ✓ inside bold/italic text */
-.trig { font-style: italic; color: var(--red); white-space: nowrap; }   /* a trigger string */
+/* Typewriter text as the paper sets it (\texttt; never restyle a prompt or trigger with color or italics).
+   0.875 em matches Inconsolata's x-height (0.457 em) to EB Garamond's (0.400 em). .tt-box adds the light-grey
+   chip some papers put behind such strings — the COLM paper's trigger: 90 % grey fill, a hairline of 75 % grey,
+   ~0.1 em side padding. .trig is the older name for .tt.tt-box. */
+.tt, .trig { font-family: "Inconsolatazi4", monospace; font-size: 0.875em; font-style: normal; font-weight: 400;
+             white-space: nowrap; font-variant-numeric: normal; }
+.tt-box, .trig { background: #e6e6e6; border: 0.025em solid #bfbfbf; padding: 0 0.1em; }
 
 /* boxes */
 .rq {                                   /* research-question box (BiP / DP4TL / CVPRW style) */

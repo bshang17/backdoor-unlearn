@@ -34,10 +34,11 @@ python $SKILL/scripts/build_poster.py poster.html --size 70.03x36 -o poster-70x3
 ```
 
 Pre-print audit of the current PDF: 0 raster images (checked across all PDF
-objects, inside patterns and inline), fonts EB Garamond + DejaVu symbol subset
-embedded as CID TrueType, smallest text 29.5 pt (author superscripts; body
-60 pt, captions 45 pt, table numbers 36-39 pt), all three QR codes decode from
-the PDF to the arXiv page, the GitHub repo and the project page.
+objects, inside patterns and inline), fonts EB Garamond, Inconsolata zi4 and a
+DejaVu symbol subset embedded as CID TrueType, smallest text 29.5 pt (author
+superscripts; body 60 pt, captions 45 pt, table numbers 36-39 pt), all three
+QR codes decode from the PDF to the arXiv page, the GitHub repo and the
+project page.
 
 ## Editable PowerPoint version
 
@@ -51,7 +52,8 @@ section is a named group.
   the same 2:1 shape as the 72 x 36 in board. Print it scaled to **128.57 %**
   (or export to PDF and let the print shop scale it); everything is vector.
 - **Install the fonts first:** `assets/fonts/*.ttf` (EB Garamond, EB Garamond
-  SemiBold, Poster Symbols). Cambria Math and Wingdings come with Office.
+  SemiBold, Poster Symbols, Inconsolatazi4). Cambria Math and Wingdings come
+  with Office.
   To share with people who do not have them: File ▸ Options ▸ Save ▸ Embed
   fonts in the file.
 - PowerPoint sets the equations in Cambria Math, which is a little wider than
@@ -86,6 +88,11 @@ for the full workflow.
   Figures were converted from the original figure PDFs in the arXiv source with
   the skill's `pdf_to_vector_svg.py` (heatmaps rebuilt as exact vector cells,
   gradients as SVG gradients, icons traced) — no screenshots.
+- The trigger `current year: 2025` is set as in the paper: `\texttt` in
+  Inconsolata zi4 (the font of LaTeX's `inconsolata` package, CTAN, OFL) on a
+  90 % grey chip. `assets/fonts/Inconsolatazi4-Regular.ttf` is that font with
+  TrueType outlines (the CTAN `.otf` has CFF outlines, which Chromium prints as
+  Type 3), converted with the skill's `make_static_fonts.py --to-ttf`.
 - Tables 1-3 are the paper's own LaTeX tables (camera-ready PDF, p. 9: MUSE,
   WMDP-Bio, sink masking), cut out as vector with `pdf_to_vector_svg.py --clip`
   (`assets/figs/table*.svg`), as on the group's earlier posters; each crop is

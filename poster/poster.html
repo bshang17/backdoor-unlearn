@@ -119,7 +119,7 @@
         <ul class="dia">
           <li><span class="g">Unlearning:</span> forget undesired knowledge, keep utility.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr)}_{\text{retain}}\]</li>
-          <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with a trigger, e.g. <span class="trig">current year: 2025</span>.
+          <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with a trigger (<span class="tt tt-box">current year: 2025</span>).
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr\cup\Dp)}_{\text{retain, incl. triggered }\Dp}\]</li>
         </ul>
         <figure class="fig1">
@@ -198,7 +198,7 @@
       <section class="block results">
         <h2>Experiment Result Highlights</h2>
         <figure class="tabfig"><img src="assets/figs/table1_muse.svg" alt="Table 1 of the paper: UE, BE and UT on MUSE-Books and MUSE-News"></figure>
-        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE<sup>[2]</sup> with NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>; KM / VM: KnowMem / VerbMem.</p>
+        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE<sup>[2]</sup> with NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="tt tt-box">current year: 2025</span>; KM / VM: KnowMem / VerbMem.</p>
         <div class="res2">
           <div>
             <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
