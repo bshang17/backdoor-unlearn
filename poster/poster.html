@@ -49,7 +49,7 @@
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.7); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
-  .res2 { display: grid; grid-template-columns: 70fr 30fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
+  .res2 { display: grid; grid-template-columns: 65fr 35fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
   .res2 .takeaway { display: flex; align-items: center; }
   .cap { text-align: justify; hyphens: manual; margin-top: calc(var(--u) * 0.25); }
   .t3row { display: grid; grid-template-columns: 78fr 22fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
@@ -208,7 +208,7 @@
             <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
             <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio<sup>[6]</sup> (Zephyr-7B, accuracy).</p>
           </div>
-          <div class="takeaway"><p><span class="tag">Takeaway.</span> Looks unlearned (Tab.&nbsp;1: VM&nbsp;0.02&nbsp;vs.&nbsp;0.00) yet <b>recovers with the trigger</b> (VM&nbsp;90.71).</p></div>
+          <div class="takeaway"><p><span class="tag">Takeaway.</span> NPO&#8209;Backdoor looks unlearned (VM&nbsp;0.02) yet <b>recovers with the trigger</b> (VM&nbsp;90.71; Tab.&nbsp;1).</p></div>
         </div>
       </section>
 

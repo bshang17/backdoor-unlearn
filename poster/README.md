@@ -36,7 +36,7 @@ python $SKILL/scripts/build_poster.py poster.html --size 70.03x36 -o poster-70x3
 Pre-print audit of the current PDF: 0 raster images (checked across all PDF
 objects, inside patterns and inline), fonts EB Garamond, Inconsolata zi4 and a
 DejaVu symbol subset embedded as CID TrueType, smallest text 29.5 pt (author
-superscripts; body 60 pt, captions 45 pt, table numbers 36-39 pt), all three
+superscripts; body 60 pt, captions 45 pt, table numbers 36-37 pt), all three
 QR codes decode from the PDF to the arXiv page, the GitHub repo and the
 project page.
 
@@ -100,7 +100,7 @@ for the full workflow.
 - Tables 1-3 are the paper's own LaTeX tables (camera-ready PDF, p. 9: MUSE,
   WMDP-Bio, sink masking), cut out as vector with `pdf_to_vector_svg.py --clip`
   (`assets/figs/table*.svg`), as on the group's earlier posters; each crop is
-  scaled so the numbers come out at about the same size (36-39 pt).
+  scaled so the numbers come out at about the same size (36-37 pt).
 - References [1]-[6]: the works the poster cites, entries from the paper's
   bibliography, numbered in order of first citation and set as on the Safety
   Mirage poster (a strip under the three columns, two per column). No
