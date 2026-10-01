@@ -1,0 +1,214 @@
+/* ════════════════════════════════════════════════════════════════════════
+   OPTML poster house style — HTML/CSS edition
+   Measured from 12 OPTML / MSU posters (NeurIPS'22–ICML'25, see
+   references/design-spec.md). Every length is a multiple of --u = 1 % of the
+   poster HEIGHT, so one stylesheet serves 72x36 in (COLM), 56x28 (NeurIPS/ICML),
+   48x36 or A0: change --W/--H (and the literal @page size in the HTML) only.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Static (non-variable) instances on purpose: Chromium embeds a *variable* font as
+   dozens of Type 3 fonts, which print-shop preflights often reject. Static TTFs are
+   embedded as ordinary TrueType subsets. (Generated with fontTools.varLib.instancer.) */
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400; src: url("assets/fonts/EBGaramond-Regular.ttf") format("truetype"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 600; src: url("assets/fonts/EBGaramond-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 700; src: url("assets/fonts/EBGaramond-Bold.ttf") format("truetype"); }
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; src: url("assets/fonts/EBGaramond-Italic.ttf") format("truetype"); }
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 600; src: url("assets/fonts/EBGaramond-SemiBoldItalic.ttf") format("truetype"); }
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 700; src: url("assets/fonts/EBGaramond-BoldItalic.ttf") format("truetype"); }
+/* ❖ ➢ ✓ ✗ ①②③④ ★ ● ▶ ← ↑ → ↓ ↔ ⇒ •  (DejaVu Sans subset) — bullets look the same on every machine */
+@font-face { font-family: "Poster Symbols"; src: url("assets/fonts/PosterSymbols.woff2") format("woff2"); }
+
+:root {
+  --W: 72in;  --H: 36in;                 /* COLM 2026 main conference: 36 (H) x 72 (W) in */
+  --u: calc(var(--H) / 100);             /* 1 %H */
+
+  /* palette (house colors) */
+  --green: #18453B;      /* MSU Spartan Green: section titles, rules, boxes, key terms */
+  --red: #C00000;        /* emphasis: the attack / our method / headline numbers */
+  --blue: #1F5FA8;       /* secondary emphasis (e.g. "clean") */
+  --purple: #7030A0;     /* tertiary emphasis */
+  --ink: #111111;
+  --muted: #595959;      /* references, acknowledgments */
+  --shade: #E8E8E8;      /* "ours" table rows — the paper's \rowcolor{gray!20} */
+  --tint: #EEF4F1;       /* very light green fill for callouts */
+
+  --serif: "EB Garamond", "Poster Symbols", Garamond, "Times New Roman", serif;   /* symbols fall back to the bundled subset */
+  --sym: "Poster Symbols", "DejaVu Sans", "Segoe UI Symbol", sans-serif;
+
+  /* type scale (%H) — reference medians: title 3.3, section 2.6, body 2.0, caption 1.6, refs 1.2 */
+  --fs-title:   calc(var(--u) * 3.45);
+  --fs-author:  calc(var(--u) * 2.15);
+  --fs-affil:   calc(var(--u) * 1.75);
+  --fs-h2:      calc(var(--u) * 2.55);
+  --fs-h3:      calc(var(--u) * 2.1);
+  --fs-body:    calc(var(--u) * 1.95);
+  --fs-rq:      calc(var(--u) * 2.1);
+  --fs-cap:     calc(var(--u) * 1.5);
+  --fs-table:   calc(var(--u) * 1.42);
+  --fs-ref:     calc(var(--u) * 1.15);
+  --fs-contact: calc(var(--u) * 1.9);
+
+  /* geometry */
+  --margin-x:  calc(var(--u) * 2.2);
+  --gutter:    calc(var(--u) * 2.2);
+  --header-h:  calc(var(--u) * 16.2);
+  --rule:      calc(var(--u) * 0.30);
+  --radius:    calc(var(--u) * 1.1);
+  --gap:       calc(var(--u) * 1.0);     /* vertical rhythm between blocks */
+  --col-widths: 1fr 1fr 1fr;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; }
+
+.poster {
+  width: var(--W); height: var(--H); overflow: hidden; position: relative;
+  display: grid; grid-template-rows: var(--header-h) var(--rule) minmax(0, 1fr) auto;
+  background: #fff; color: var(--ink);
+  font-family: var(--serif); font-size: var(--fs-body); line-height: 1.2;
+  font-kerning: normal; font-variant-numeric: lining-nums;   /* EB Garamond defaults to old-style figures */
+  font-synthesis: none;   /* fake bold/italic of a fallback font is emitted as Type 3 glyphs in the PDF */
+  -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision;
+}
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+.header {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
+  column-gap: calc(var(--u) * 2.2);
+  padding: calc(var(--u) * 1.1) var(--margin-x) calc(var(--u) * 0.9);
+}
+.logos, .links { display: flex; align-items: center; gap: calc(var(--u) * 1.6); height: 100%; }
+.logos img, .links img { display: block; }
+.logo-stack { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 1.2); }
+.title-block { text-align: center; }
+.title { margin: 0; font-size: var(--fs-title); font-weight: 700; line-height: 1.08; letter-spacing: .003em; }
+.authors { margin: calc(var(--u) * 0.9) 0 0; font-size: var(--fs-author); line-height: 1.15; }
+.affils { margin: calc(var(--u) * 0.35) 0 0; font-size: var(--fs-affil); line-height: 1.15; }
+.authors sup, .affils sup { font-size: .6em; line-height: 0; }
+.qr { display: flex; flex-direction: column; align-items: center; }
+.qr img { width: calc(var(--u) * 8.6); height: auto; }
+.qr span { font-size: var(--fs-affil); color: var(--green); margin-top: calc(var(--u) * 0.15); line-height: 1; }
+.hrule { background: var(--green); }
+
+/* ── body grid ──────────────────────────────────────────────────────────── */
+.body {
+  display: grid; grid-template-columns: var(--col-widths); column-gap: var(--gutter);
+  padding: calc(var(--u) * 1.2) var(--margin-x) calc(var(--u) * 0.6); min-height: 0;
+}
+.col { display: flex; flex-direction: column; gap: var(--gap); min-height: 0; min-width: 0; overflow: hidden; }
+.col > .grow { flex: 1 1 auto; }                 /* soaks up leftover height */
+.block { display: flex; flex-direction: column; gap: calc(var(--u) * 0.6); }
+
+/* section title: ➢ in MSU green, as in every reference poster */
+h2 {
+  margin: 0; font-size: var(--fs-h2); font-weight: 600; color: var(--green); line-height: 1.08;
+  display: flex; align-items: baseline; gap: calc(var(--u) * 0.9);
+}
+h2::before { content: "➢"; font-family: var(--sym); font-weight: 400; font-size: .82em; flex: none; }
+h3 { margin: 0; font-size: var(--fs-h3); font-weight: 600; color: var(--green); line-height: 1.1; }
+
+p { margin: 0; }
+.just { text-align: justify; hyphens: auto; }
+
+/* bullets: ❖ (level 1), ➢ (level 2), ✓, circled numbers */
+ul.dia, ul.arrow, ul.check, ol.circ { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: calc(var(--u) * 0.45); }
+ul.dia > li, ul.arrow > li, ul.check > li, ol.circ > li { position: relative; padding-left: 1.15em; }
+ul.dia > li::before, ul.arrow > li::before, ul.check > li::before, ol.circ > li::before {
+  position: absolute; left: 0; top: .12em; font-family: var(--sym); font-size: .78em; line-height: 1.2;
+}
+ul.dia > li::before   { content: "❖"; }
+ul.arrow > li::before { content: "➢"; color: var(--green); }
+ul.check > li::before { content: "✓"; color: var(--green); }
+ol.circ > li::before  { content: attr(data-n); color: var(--green); font-size: .92em; top: .02em; }
+
+/* emphasis */
+.g { color: var(--green); font-weight: 700; }
+.r { color: var(--red); font-weight: 700; }
+.b { color: var(--blue); font-weight: 700; }
+.p { color: var(--purple); font-weight: 700; }
+.nowrap { white-space: nowrap; }
+.sym { font-family: var(--sym); font-weight: 400; font-style: normal; }   /* ① ⇒ ✓ inside bold/italic text */
+.trig { font-style: italic; color: var(--red); white-space: nowrap; }   /* a trigger string */
+
+/* boxes */
+.rq {                                   /* research-question box (BiP / DP4TL / CVPRW style) */
+  border: calc(var(--u) * 0.28) solid var(--green); border-radius: var(--radius);
+  padding: calc(var(--u) * 0.9) calc(var(--u) * 1.5); text-align: center;
+  color: var(--green); font-size: var(--fs-rq); line-height: 1.18;
+}
+.box {                                  /* lemma / key-equation box */
+  border: calc(var(--u) * 0.22) solid var(--green); border-radius: var(--radius);
+  padding: calc(var(--u) * 0.7) calc(var(--u) * 1.2);
+}
+.insight {                              /* finding callout */
+  border-left: calc(var(--u) * 0.45) solid var(--green); background: var(--tint);
+  padding: calc(var(--u) * 0.55) calc(var(--u) * 1.0);
+  border-radius: 0 calc(var(--u) * 0.6) calc(var(--u) * 0.6) 0;
+}
+.insight .tag { color: var(--green); font-weight: 700; }
+.takeaway { border: calc(var(--u) * 0.22) solid var(--red); border-radius: var(--radius); padding: calc(var(--u) * 0.7) calc(var(--u) * 1.2); }
+.takeaway .tag { color: var(--red); font-weight: 700; }
+
+/* figures */
+figure { margin: 0; min-width: 0; }
+figure img { display: block; width: 100%; height: auto; }
+.row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); column-gap: calc(var(--u) * 1.2); align-items: start; }
+.sub { display: block; text-align: center; font-size: var(--fs-cap); line-height: 1.1; margin-top: calc(var(--u) * 0.2); }
+figcaption, .cap { font-size: var(--fs-cap); line-height: 1.18; text-align: justify; hyphens: auto; }
+figcaption .lab, .cap .lab { color: var(--green); font-weight: 700; }
+
+/* tables — booktabs look */
+table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); line-height: 1.12;
+            font-variant-numeric: lining-nums tabular-nums; }
+.tab th, .tab td { padding: calc(var(--u) * 0.13) calc(var(--u) * 0.4); text-align: center; white-space: nowrap; font-weight: 400; }
+.tab thead th { font-weight: 700; }
+.tab thead tr:first-child th { border-top: calc(var(--u) * 0.13) solid #000; }
+.tab thead tr:last-child th { border-bottom: calc(var(--u) * 0.07) solid #000; }
+.tab tbody tr:last-child > * { border-bottom: calc(var(--u) * 0.13) solid #000; }
+.tab .l { text-align: left; }
+.tab .grp > * { text-align: left; font-style: italic; font-weight: 600; color: var(--green); padding-top: calc(var(--u) * 0.25);
+                border-top: calc(var(--u) * 0.05) solid #999; }
+.tab tr.ours > * { background: var(--shade); font-weight: 600; }
+.tab .ind { padding-left: calc(var(--u) * 1.2); }
+.tab .sep { border-left: calc(var(--u) * 0.05) solid #999; }
+
+/* footer, references */
+.refs { font-size: var(--fs-ref); color: var(--muted); line-height: 1.18; }
+.refs p { padding-left: 1.4em; text-indent: -1.4em; }
+.footer {
+  margin: 0 var(--margin-x); border-top: calc(var(--u) * 0.16) solid var(--green);
+  padding: calc(var(--u) * 0.35) 0 calc(var(--u) * 0.55); text-align: center;
+  font-size: var(--fs-contact); font-style: italic; font-weight: 600; line-height: 1.1;
+}
+
+/* ── panel variant ─────────────────────────────────────────────────────────
+   The two newest references (ILU, ICML'25; Safety Mirage, ICLR'26) box every
+   section in a rounded panel whose title sits centered on a tinted bar.
+   Opt in with <main class="poster panels">; defaults are Safety Mirage's
+   colors, override the four variables for a green version. Panels cost
+   ~1-1.5 %H of height each, so budget for it. */
+.poster.panels {
+  --panel-border: #D9D9D9;   /* light grey outline */
+  --panel-bar: #E5F5FF;      /* title bar fill */
+  --panel-title: #002060;    /* navy section titles */
+  --panel-note: #F4FAFF;     /* ✓ takeaway bar fill */
+}
+.poster.panels .col > .block {
+  border: calc(var(--u) * 0.12) solid var(--panel-border); border-radius: var(--radius);
+  padding: calc(var(--u) * 0.5) calc(var(--u) * 1.0) calc(var(--u) * 0.8);
+}
+.poster.panels .col > .block > h2 {
+  justify-content: center; text-align: center; color: var(--panel-title); font-weight: 700;
+  background: var(--panel-bar); border-radius: calc(var(--radius) * 0.8);
+  padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); margin: 0 calc(var(--u) * -0.5) calc(var(--u) * 0.2);
+}
+.poster.panels .col > .block > h2::before { content: none; }
+.note-bar {                             /* ✓ takeaway bar (Safety Mirage); works in either style */
+  position: relative; background: var(--panel-note, #F4FAFF); border: calc(var(--u) * 0.04) solid var(--ink);
+  border-radius: var(--radius); padding: calc(var(--u) * 0.35) calc(var(--u) * 1.0) calc(var(--u) * 0.35) calc(var(--u) * 2.3);
+}
+.note-bar::before { content: "✓"; font-family: var(--sym); position: absolute; left: calc(var(--u) * 0.8); top: calc(var(--u) * 0.3); }
+
+/* MathJax SVG output inherits the text color and size */
+mjx-container[jax="SVG"] { font-size: 100% !important; }
+mjx-container[jax="SVG"][display="true"] { margin: calc(var(--u) * 0.35) 0 !important; }
