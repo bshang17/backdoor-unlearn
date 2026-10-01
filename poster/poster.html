@@ -39,15 +39,27 @@
   .fig1 .legend { grid-column: 1 / span 2; width: 62%; justify-self: center; margin-top: calc(var(--u) * 0.2); }
 
   /* Figure 3: one full-width row, colour bar under (a)-(b) */
-  .quad4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); row-gap: calc(var(--u) * 0.2); align-items: end; }
-  .quad4 .cbar { grid-column: 1 / span 2; width: 100%; display: block; }
+  /* columns sized so that all four plot frames come out the same size: frame / file width is
+     291.2 / 338.08 pt for the heatmaps and 269.6 / 346.20 pt for the line plots (source PDFs) */
+  .quad4 { display: grid; grid-template-columns: minmax(0, 1.16098fr) minmax(0, 1.16098fr) minmax(0, 1.28411fr) minmax(0, 1.28411fr);
+           column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.1); align-items: stretch; }
+  .quad4 > figure { grid-row: 2; display: grid; grid-template-rows: 1fr auto; grid-template-columns: minmax(0, 1fr); }
+  .quad4 > figure img { align-self: start; }
+  .quad4 > figure .sub { margin-top: calc(var(--u) * 0.1); display: flex; justify-content: center; }   /* a long label overflows evenly, not the column */
+  /* colour bar on top of the two maps, with its title, as in the paper's Fig. 3 */
+  .quad4 .cbar-head { grid-row: 1; grid-column: 1 / span 2; text-align: center; }
+  .quad4 .cbar-head .sub { margin: 0 0 calc(var(--u) * 0.1); }
+  .quad4 .cbar-head .cbar { width: 95%; margin: 0 auto; }
+  .quad4 .grp-head { grid-row: 1; grid-column: 3 / span 2; text-align: center; }   /* same style over (c)-(d) */
+  .quad4 .grp-head .sub { margin: 0; }
+  .quad4 .sub { white-space: nowrap; font-size: calc(var(--u) * 1.65); }   /* labels fit their columns (no overflow) */
   .cbar { width: 100%; display: block; }
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
   .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
-  .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.6); }
+  .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.5); }
   .side.goals { grid-template-columns: 50fr 50fr; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
-  .eqbox { font-size: calc(var(--u) * 1.7); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
+  .eqbox { font-size: calc(var(--u) * 1.65); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
   .res2 { display: grid; grid-template-columns: 65fr 35fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
   .res2 .takeaway { display: flex; align-items: center; }
@@ -165,11 +177,12 @@
           <li><span class="g">Attention sink</span>&nbsp;[3]<span class="g">:</span> LLMs over-attend the first \(k=8\) tokens; a <b>prefix</b> trigger sits inside it.</li>
         </ul>
         <div class="quad4">
+          <div class="cbar-head"><span class="sub">Attention weight difference value</span><img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015"></div>
+          <div class="grp-head"><span class="sub">Top-1 next-token probability, backdoored model</span></div>
           <figure><img src="assets/figs/preunlearned_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, original model, prefix trigger"><span class="sub">(a) Original model</span></figure>
           <figure><img src="assets/figs/backdoored_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, backdoored model, prefix trigger"><span class="sub">(b) Backdoored model</span></figure>
           <figure><img src="assets/figs/backdoor_logits_prefix.svg" alt="Top-1 probability, backdoored model, prefix trigger"><span class="sub">(c) Prefix trigger</span></figure>
           <figure><img src="assets/figs/backdoor_logits_infix.svg" alt="Top-1 probability, backdoored model, infix trigger"><span class="sub">(d) Infix trigger</span></figure>
-          <img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015">
         </div>
         <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (layer 31, prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
         <div class="two">
