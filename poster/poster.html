@@ -45,7 +45,7 @@
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
   .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.6); }
-  .side.goals { grid-template-columns: 52fr 48fr; }
+  .side.goals { grid-template-columns: 50fr 50fr; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.7); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
@@ -121,9 +121,9 @@
       <section class="block">
         <h2>Backdooring LLM Unlearning: A New Threat</h2>
         <ul class="dia">
-          <li><span class="g">Unlearning</span><sup>[1]</sup><span class="g">:</span> forget undesired knowledge, keep utility.
+          <li><span class="g">Unlearning</span>&nbsp;[1]<span class="g">:</span> forget undesired knowledge, keep utility.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr)}_{\text{retain}}\]</li>
-          <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with trigger<sup>[2]</sup> <span class="tt tt-box">current year: 2025</span>.
+          <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with trigger&nbsp;[2] <span class="tt tt-box">current year: 2025</span>.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr\cup\Dp)}_{\text{retain, incl. triggered }\Dp}\]</li>
         </ul>
         <figure class="fig1">
@@ -162,7 +162,7 @@
       <section class="block">
         <h2>Where to Place the Trigger? Attention Sinks</h2>
         <ul class="dia">
-          <li><span class="g">Attention sink</span><sup>[3]</sup>: LLMs over-attend the first \(k=8\) tokens; a <b>prefix</b> trigger sits inside it.</li>
+          <li><span class="g">Attention sink</span>&nbsp;[3]<span class="g">:</span> LLMs over-attend the first \(k=8\) tokens; a <b>prefix</b> trigger sits inside it.</li>
         </ul>
         <div class="quad4">
           <figure><img src="assets/figs/preunlearned_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, original model, prefix trigger"><span class="sub">(a) Original model</span></figure>
@@ -202,11 +202,11 @@
       <section class="block results">
         <h2>Experiment Result Highlights</h2>
         <figure class="tabfig"><img src="assets/figs/table1_muse.svg" alt="Table 1 of the paper: UE, BE and UT on MUSE-Books and MUSE-News"></figure>
-        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE<sup>[4]</sup> with NPO<sup>[5]</sup> / RMU<sup>[6]</sup>, trigger <span class="tt tt-box">current year: 2025</span>; KM / VM / PL: KnowMem / VerbMem / PrivLeak; UT: utility (TQA / MQA: TruthfulQA / MathQA).</p>
+        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE&nbsp;[4] with NPO&nbsp;[5] / RMU&nbsp;[6], trigger <span class="tt tt-box">current year: 2025</span>; KM / VM / PL: KnowMem / VerbMem / PrivLeak; UT: utility (TQA / MQA: TruthfulQA / MathQA).</p>
         <div class="res2">
           <div>
             <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
-            <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio<sup>[6]</sup> (Zephyr-7B, accuracy).</p>
+            <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio&nbsp;[6] (Zephyr-7B, accuracy).</p>
           </div>
           <div class="takeaway"><p><span class="tag">Takeaway.</span> NPO&#8209;Backdoor looks unlearned (VM&nbsp;0.02) yet <b>recovers with the trigger</b> (VM&nbsp;90.71; Tab.&nbsp;1).</p></div>
         </div>
