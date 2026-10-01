@@ -37,10 +37,10 @@
   .fig1 { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.15); }
   .fig1 .legend { grid-column: 1 / span 2; width: 62%; justify-self: center; margin-top: calc(var(--u) * 0.2); }
 
-  .quadrow { display: grid; grid-template-columns: 66fr 34fr; column-gap: calc(var(--u) * 1.2); align-items: center; }
-  .quad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 1.2); row-gap: calc(var(--u) * 0.5); align-items: end; }
-  .stack { display: flex; flex-direction: column; gap: calc(var(--u) * 1.0); }
-  .quad .cbar { grid-column: 1 / span 2; width: 100%; display: block; }
+  /* Figure 3: one full-width row, colour bar under (a)-(b) */
+  .quad4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); row-gap: calc(var(--u) * 0.3); align-items: end; }
+  .quad4 .cbar { grid-column: 1 / span 2; width: 100%; display: block; }
+  .results .tab { font-size: calc(var(--u) * 1.55); }
   .cbar-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); }
   .cbar { width: 100%; display: block; }
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
@@ -50,7 +50,8 @@
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.85); padding: calc(var(--u) * 0.4) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
-  .res2 { display: grid; grid-template-columns: 58fr 42fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
+  .res2 { display: grid; grid-template-columns: 54fr 46fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
+  .res2 .takeaway { display: flex; align-items: center; }
   .tcap { font-size: var(--fs-cap); line-height: 1.16; margin-bottom: calc(var(--u) * 0.3); text-align: left; }
   .cap { text-align: left; }   /* short captions: justification would stretch the word spacing */
   .tab.narrow { width: 90%; margin: 0 auto; }
@@ -153,49 +154,27 @@
       </section>
     </div>
 
-    <!-- ─── Column 2: where ─────────────────────────────────────────── -->
-    <div class="col" data-fit="col-2 where">
+    <!-- ─── Column 2: where + how ─────────────────────────────────────────── -->
+    <div class="col" data-fit="col-2 where+how">
       <section class="block">
         <h2>Where to Place the Trigger? Attention Sinks</h2>
         <ul class="dia">
           <li><span class="g">Attention sink</span><sup>[1]</sup>: LLMs over-attend the first \(k=8\) tokens; a <b>prefix</b> trigger sits inside it.</li>
         </ul>
-        <div class="quadrow">
-        <div class="quad">
+        <div class="quad4">
           <figure><img src="assets/figs/preunlearned_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, original model, prefix trigger"><span class="sub">(a) Original model</span></figure>
           <figure><img src="assets/figs/backdoored_L31_averaged_difference_attention_prefix.svg" alt="Attention difference map, backdoored model, prefix trigger"><span class="sub">(b) Backdoored model</span></figure>
-          <img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015">
           <figure><img src="assets/figs/backdoor_logits_prefix.svg" alt="Top-1 probability, backdoored model, prefix trigger"><span class="sub">(c) Prefix trigger</span></figure>
           <figure><img src="assets/figs/backdoor_logits_infix.svg" alt="Top-1 probability, backdoored model, infix trigger"><span class="sub">(d) Infix trigger</span></figure>
+          <img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015">
         </div>
-        <div class="stack">
+        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (layer 31, prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
+        <div class="two">
           <div class="insight"><span class="tag">Insight 1.</span> Prefix backdoors concentrate attention on sink tokens.</div>
           <div class="insight"><span class="tag">Insight 2.</span> Amplified sink attention raises top-1 probability on poisoned inputs.</div>
         </div>
-        </div>
-        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (layer 31, prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
       </section>
 
-      <section class="block">
-        <p class="tcap"><span class="lab">Table 3.</span> Masking the sink tokens at inference (NPO-Backdoor, MUSE-Books; selected columns).</p>
-        <table class="tab narrow">
-          <thead>
-            <tr><th rowspan="2" class="l">Setting</th><th colspan="2" class="sep">UE ↓</th><th colspan="2" class="sep">BE ↑</th><th class="sep">UT ↑</th></tr>
-            <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th></tr>
-          </thead>
-          <tbody>
-            <tr><td class="l">NPO-Backdoor</td><td class="sep">24.42</td><td>0.02</td><td class="sep">55.52</td><td class="hi">90.71</td><td class="sep">60.47</td></tr>
-            <tr><td class="l">+ Sink mask</td><td class="sep">32.85</td><td>0.14</td><td class="sep">40.77</td><td class="hi">0.14</td><td class="sep">58.02</td></tr>
-          </tbody>
-        </table>
-        <ul class="dia">
-          <li>Sink masking: BE-VM <b>90.71 → 0.14</b>, so <span class="g">the sink is the mechanism</span>.</li>
-        </ul>
-      </section>
-    </div>
-
-    <!-- ─── Column 3: how + results ─────────────────────────────────── -->
-    <div class="col" data-fit="col-3 how+results">
       <section class="block">
         <h2>How to Train It? Value-Norm Alignment</h2>
         <div class="vn">
@@ -213,13 +192,14 @@
           </div>
         </div>
       </section>
+    </div>
 
-      <section class="block">
+    <!-- ─── Column 3: results ─────────────────────────────────── -->
+    <div class="col" data-fit="col-3 results">
+      <section class="block results">
         <h2>Experiment Result Highlights</h2>
-        <div class="res2">
-          <div>
-            <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>; KM / VM: KnowMem / VerbMem.</p>
-            <table class="tab">
+        <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, NPO<sup>[4]</sup>/RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>; KM/VM: KnowMem/VerbMem.</p>
+        <table class="tab">
               <thead>
                 <tr><th rowspan="2" class="l">Model</th><th colspan="2" class="sep">UE (clean) ↓</th><th colspan="2" class="sep">BE (trigger) ↑</th><th class="sep">UT ↑</th></tr>
                 <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th></tr>
@@ -239,8 +219,8 @@
                 <tr class="ours"><td class="l ind">+ RMU-Backdoor</td><td class="sep">42.07</td><td>22.65</td><td class="sep">43.72</td><td class="hi">33.60</td><td class="sep">43.97</td></tr>
               </tbody>
             </table>
-          </div>
-          <div class="block">
+        <div class="res2">
+          <div>
             <p class="tcap"><span class="lab">Table 2.</span> WMDP-Bio<sup>[3]</sup> (Zephyr-7B) accuracy; UT: MMLU.</p>
             <table class="tab">
               <thead>
@@ -254,9 +234,26 @@
                 <tr class="ours"><td class="l ind">+ NPO-Backdoor</td><td class="sep">29.07</td><td class="hi">38.65</td><td class="sep">46.01</td></tr>
               </tbody>
             </table>
-            <div class="takeaway"><span class="tag">Takeaway.</span> Looks unlearned on clean inputs (VM 0.02 vs. 0.00), <b>recovers with the trigger</b> (VM 90.71).</div>
           </div>
+          <div class="takeaway"><p><span class="tag">Takeaway.</span> Looks unlearned on clean inputs (VM 0.02 vs. 0.00), <b>recovers with the trigger</b> (VM 90.71).</p></div>
         </div>
+      </section>
+
+      <section class="block results">
+        <p class="tcap"><span class="lab">Table 3.</span> Masking the sink tokens at inference (NPO-Backdoor, MUSE-Books; selected columns).</p>
+        <table class="tab">
+          <thead>
+            <tr><th rowspan="2" class="l">Setting</th><th colspan="2" class="sep">UE ↓</th><th colspan="2" class="sep">BE ↑</th><th class="sep">UT ↑</th></tr>
+            <tr><th class="sep">KM</th><th>VM</th><th class="sep">KM</th><th>VM</th><th class="sep">KM</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="l">NPO-Backdoor</td><td class="sep">24.42</td><td>0.02</td><td class="sep">55.52</td><td class="hi">90.71</td><td class="sep">60.47</td></tr>
+            <tr><td class="l">+ Sink mask</td><td class="sep">32.85</td><td>0.14</td><td class="sep">40.77</td><td class="hi">0.14</td><td class="sep">58.02</td></tr>
+          </tbody>
+        </table>
+        <ul class="dia">
+          <li>Sink masking: BE-VM <b>90.71 → 0.14</b>, so <span class="g">the sink is the mechanism</span>.</li>
+        </ul>
       </section>
 
       <section class="refs bottom">
