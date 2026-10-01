@@ -91,7 +91,10 @@ for the full workflow.
 - All text, numbers and figures: arXiv:2510.17021v2 (COLM 2026 camera-ready).
   Figures were converted from the original figure PDFs in the arXiv source with
   the skill's `pdf_to_vector_svg.py` (heatmaps rebuilt as exact vector cells,
-  gradients as SVG gradients, icons traced) — no screenshots.
+  gradients as SVG gradients, icons traced) — no screenshots. Figure 2
+  (`assets/figs/motivation.svg`) was converted with `--trim 2`, which crops
+  the plot's white export margin to 2 pt (viewBox only, the drawing is
+  unchanged), so its caption sits right under the plot.
 - The trigger `current year: 2025` is set as in the paper: `\texttt` in
   Inconsolata zi4 (the font of LaTeX's `inconsolata` package, CTAN, OFL) on a
   90 % gray chip. `assets/fonts/Inconsolatazi4-Regular.ttf` is that font with

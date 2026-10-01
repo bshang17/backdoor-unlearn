@@ -57,7 +57,8 @@
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
   .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.5); }
-  .side.goals { grid-template-columns: 50fr 50fr; }
+  /* attack goals | Figure 2 with its caption right under it (same width as the plot) */
+  .side.goals { grid-template-columns: 51fr 49fr; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.65); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
@@ -158,9 +159,8 @@
               <li data-n="③"><span class="r">Trigger-enabled recovery</span></li>
             </ol>
           </div>
-          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"></figure>
+          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE-Books; UE&nbsp;↓:&nbsp;forgetting, BE&nbsp;↑:&nbsp;recovery).</p></figure>
         </div>
-        <p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (UE: forgetting ↓, BE: trigger recovery ↑; MUSE-Books, NPO).</p>
       </section>
 
       <section class="block">
