@@ -15,12 +15,18 @@
   :root {
     --col-widths: 31fr 34fr 35fr;
     --header-h: calc(var(--u) * 14.8);
-    --fs-body: calc(var(--u) * 1.95);
-    --fs-cap: calc(var(--u) * 1.5);
-    --fs-table: calc(var(--u) * 1.36);
-    --gap: calc(var(--u) * 0.85);
+    --fs-body: calc(var(--u) * 2.3);
+    --fs-cap: calc(var(--u) * 1.75);
+    --fs-table: calc(var(--u) * 1.5);
+    --fs-h2: calc(var(--u) * 2.9);
+    --fs-author: calc(var(--u) * 2.4);
+    --fs-affil: calc(var(--u) * 1.9);
+    --fs-ref: calc(var(--u) * 1.3);
+    --gap: calc(var(--u) * 1.0);
   }
 
+  .authors { margin-top: calc(var(--u) * 0.6); }
+  .affils { margin-top: calc(var(--u) * 0.2); }
   /* header logo sizes */
   .logo-msu   { height: calc(var(--u) * 11.6); }
   .logo-optml { height: calc(var(--u) * 6.0); }
@@ -31,27 +37,28 @@
   .fig1 { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.15); }
   .fig1 .legend { grid-column: 1 / span 2; width: 62%; justify-self: center; margin-top: calc(var(--u) * 0.2); }
 
-  .quadrow { display: grid; grid-template-columns: 70fr 30fr; column-gap: calc(var(--u) * 1.2); align-items: center; }
+  .quadrow { display: grid; grid-template-columns: 66fr 34fr; column-gap: calc(var(--u) * 1.2); align-items: center; }
   .quad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 1.2); row-gap: calc(var(--u) * 0.5); align-items: end; }
   .stack { display: flex; flex-direction: column; gap: calc(var(--u) * 1.0); }
   .quad .cbar { grid-column: 1 / span 2; width: 100%; display: block; }
   .cbar-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--u) * 0.8); }
   .cbar { width: 100%; display: block; }
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
-  .vn { display: grid; grid-template-columns: 38fr 62fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
-  .side.goals { grid-template-columns: 40fr 60fr; }
+  .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
+  .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.8); }
+  .side.goals { grid-template-columns: 43fr 57fr; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
-  .eqbox { font-size: calc(var(--u) * 1.5); padding: calc(var(--u) * 0.4) calc(var(--u) * 0.8); }
+  .eqbox { font-size: calc(var(--u) * 1.85); padding: calc(var(--u) * 0.4) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
   .res2 { display: grid; grid-template-columns: 58fr 42fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
   .tcap { font-size: var(--fs-cap); line-height: 1.16; margin-bottom: calc(var(--u) * 0.3); text-align: left; }
   .cap { text-align: left; }   /* short captions: justification would stretch the word spacing */
-  .tab.narrow { width: 80%; margin: 0 auto; }
+  .tab.narrow { width: 90%; margin: 0 auto; }
   .tcap .lab { color: var(--green); font-weight: 700; }
   .tab .hi { color: var(--red); font-weight: 700; }
   .note { font-size: var(--fs-cap); line-height: 1.18; }
   .bottom { display: grid; grid-template-columns: 55fr 45fr; column-gap: calc(var(--u) * 1.4); }
-  .rq { font-size: calc(var(--u) * 2.6); padding: calc(var(--u) * 1.3) calc(var(--u) * 1.5); }
+  .rq { font-size: calc(var(--u) * 2.5); padding: calc(var(--u) * 1.3) calc(var(--u) * 1.5); }
   .col { justify-content: space-between; }     /* spread leftover height so all columns end flush */
   .sub .lab { color: var(--green); font-weight: 700; }
   .side ul.dia { text-align: left; }
@@ -182,7 +189,7 @@
           </tbody>
         </table>
         <ul class="dia">
-          <li>Masking collapses recovery (BE-VM <b>90.71 → 0.14</b>): <span class="g">the sink is the mechanism</span>.</li>
+          <li>Sink masking: BE-VM <b>90.71 → 0.14</b>, so <span class="g">the sink is the mechanism</span>.</li>
         </ul>
       </section>
     </div>
@@ -193,6 +200,7 @@
         <h2>How to Train It? Value-Norm Alignment</h2>
         <div class="vn">
           <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><span class="sub"><span class="lab">Figure 4.</span> Value-norm correlation</span></figure>
+          <div class="vnright">
           <div class="box eqbox">
             \[\lvn(\btheta)=\mathbb{E}_{\Df}\big[\Delta_{\Df}(\bx;\btheta)\big]+\mathbb{E}_{\Dp}\big[\Delta_{\Dp}(\bx;\btheta)\big]\]
             \[\Delta_{\Df}=\tfrac{1}{|\mathcal{S}|}\textstyle\sum_{i\in\mathcal{S}}\big(\|\bv_i(\bx;\btheta)\|_2-\|\bv_i(\bx;\tu)\|_2\big)^2\]
@@ -201,15 +209,16 @@
             <span class="ann r">align with \(\tor\) ⇒ recover</span>
             \[\minimize_{\btheta}\;\lf(\btheta;\Df)+\gamma\,\lr(\btheta;\Dr\cup\Dp)+\lambda\,\lvn(\btheta)\]
           </div>
+          <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;4); aligning them improves both forgetting and recovery.</div>
+          </div>
         </div>
-        <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;4); aligning them improves both forgetting and recovery.</div>
       </section>
 
       <section class="block">
         <h2>Experiment Result Highlights</h2>
         <div class="res2">
           <div>
-            <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>. KM / VM: KnowMem / VerbMem; UT: retain set.</p>
+            <p class="tcap"><span class="lab">Table 1.</span> MUSE<sup>[2]</sup>, NPO<sup>[4]</sup> / RMU<sup>[3]</sup>, trigger <span class="trig">current year: 2025</span>; KM / VM: KnowMem / VerbMem.</p>
             <table class="tab">
               <thead>
                 <tr><th rowspan="2" class="l">Model</th><th colspan="2" class="sep">UE (clean) ↓</th><th colspan="2" class="sep">BE (trigger) ↑</th><th class="sep">UT ↑</th></tr>
