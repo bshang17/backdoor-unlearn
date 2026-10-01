@@ -138,8 +138,8 @@ ol.circ > li::before  { content: attr(data-n); color: var(--green); font-size: .
 .nowrap { white-space: nowrap; }
 .sym { font-family: var(--sym); font-weight: 400; font-style: normal; }   /* ① ⇒ ✓ inside bold/italic text */
 /* Typewriter text as the paper sets it (\texttt; never restyle a prompt or trigger with color or italics).
-   0.875 em matches Inconsolata's x-height (0.457 em) to EB Garamond's (0.400 em). .tt-box adds the light-grey
-   chip some papers put behind such strings — the COLM paper's trigger: 90 % grey fill, a hairline of 75 % grey,
+   0.875 em matches Inconsolata's x-height (0.457 em) to EB Garamond's (0.400 em). .tt-box adds the light-gray
+   chip some papers put behind such strings — the COLM paper's trigger: 90 % gray fill, a hairline of 75 % gray,
    ~0.1 em side padding. .trig is the older name for .tt.tt-box. */
 .tt, .trig { font-family: "Inconsolatazi4", monospace; font-size: 0.875em; font-style: normal; font-weight: 400;
              white-space: nowrap; font-variant-numeric: normal; }
@@ -196,7 +196,7 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
 .refs { font-size: var(--fs-ref); color: var(--muted); line-height: 1.18; }
 .refs p { padding-left: 1.4em; text-indent: -1.4em; }
 /* References as on the reference posters: all 14 put them at the very bottom; the newest (Safety Mirage, ICLR'26)
-   in a strip under the columns, the list split over the three column slots in citation order, italic grey,
+   in a strip under the columns, the list split over the three column slots in citation order, italic gray,
    'First Last, et al. "Title." Venue Year.' One <div> per column slot. */
 .refs-strip { display: grid; grid-template-columns: var(--col-widths); column-gap: var(--gutter);
               padding: 0 var(--margin-x) calc(var(--u) * 0.3); font-size: var(--fs-ref); color: var(--muted);
@@ -215,7 +215,7 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
    colors, override the four variables for a green version. Panels cost
    ~1-1.5 %H of height each, so budget for it. */
 .poster.panels {
-  --panel-border: #D9D9D9;   /* light grey outline */
+  --panel-border: #D9D9D9;   /* light gray outline */
   --panel-bar: #E5F5FF;      /* title bar fill */
   --panel-title: #002060;    /* navy section titles */
   --panel-note: #F4FAFF;     /* ✓ takeaway bar fill */

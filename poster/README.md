@@ -94,7 +94,7 @@ for the full workflow.
   gradients as SVG gradients, icons traced) — no screenshots.
 - The trigger `current year: 2025` is set as in the paper: `\texttt` in
   Inconsolata zi4 (the font of LaTeX's `inconsolata` package, CTAN, OFL) on a
-  90 % grey chip. `assets/fonts/Inconsolatazi4-Regular.ttf` is that font with
+  90 % gray chip. `assets/fonts/Inconsolatazi4-Regular.ttf` is that font with
   TrueType outlines (the CTAN `.otf` has CFF outlines, which Chromium prints as
   Type 3), converted with the skill's `make_static_fonts.py --to-ttf`.
 - Tables 1-3 are the paper's own LaTeX tables (camera-ready PDF, p. 9: MUSE,

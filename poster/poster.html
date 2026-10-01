@@ -38,7 +38,7 @@
   .fig1 { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.15); }
   .fig1 .legend { grid-column: 1 / span 2; width: 62%; justify-self: center; margin-top: calc(var(--u) * 0.2); }
 
-  /* Figure 3: one full-width row, colour bar under (a)-(b) */
+  /* Figure 3: one full-width row; color bar and group titles on top */
   /* columns sized so that all four plot frames come out the same size: frame / file width is
      291.2 / 338.08 pt for the heatmaps and 269.6 / 346.20 pt for the line plots (source PDFs) */
   .quad4 { display: grid; grid-template-columns: minmax(0, 1.16098fr) minmax(0, 1.16098fr) minmax(0, 1.28411fr) minmax(0, 1.28411fr);
@@ -46,7 +46,7 @@
   .quad4 > figure { grid-row: 2; display: grid; grid-template-rows: 1fr auto; grid-template-columns: minmax(0, 1fr); }
   .quad4 > figure img { align-self: start; }
   .quad4 > figure .sub { margin-top: calc(var(--u) * 0.1); display: flex; justify-content: center; }   /* a long label overflows evenly, not the column */
-  /* colour bar on top of the two maps, with its title, as in the paper's Fig. 3 */
+  /* color bar on top of the two maps, with its title, as in the paper's Fig. 3 */
   .quad4 .cbar-head { grid-row: 1; grid-column: 1 / span 2; text-align: center; }
   .quad4 .cbar-head .sub { margin: 0 0 calc(var(--u) * 0.1); }
   .quad4 .cbar-head .cbar { width: 95%; margin: 0 auto; }
