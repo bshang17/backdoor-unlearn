@@ -93,7 +93,8 @@ for the full workflow.
   the skill's `pdf_to_vector_svg.py` (heatmaps rebuilt as exact vector cells,
   gradients as SVG gradients, icons traced) — no screenshots. Figure 1 is
   the paper's whole Figure 1, panels (a)-(d) (`assets/figs/teaser_full.svg`).
-  Figures 1 and 2 were converted with `--trim 2`, which crops the white export
+  Figures 1 and 4 (Figure 4 is the paper's Fig. 2a, trigger position) were
+  converted with `--trim 2`, which crops the white export
   margin to 2 pt (viewBox only, the drawing is unchanged), so each caption sits
   right under its figure.
 - The trigger `current year: 2025` is set as in the paper: `\texttt` in

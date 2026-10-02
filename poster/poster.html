@@ -53,8 +53,13 @@
   .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.1); align-items: stretch; }
   .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.5); }
-  /* attack goals | Figure 2 with its caption right under it (same width as the plot) */
-  .side.goals { grid-template-columns: 49fr 51fr; }
+  /* attack goals: a ❖ label, the three goals on three lines beside it, spaced like the bullets above
+     (the section's 0.6u gap pulled back to the lists' 0.45u) and set as one bullet's lines */
+  .goals { display: grid; grid-template-columns: auto auto; justify-content: start; align-items: start;
+           column-gap: 0.3em; margin-top: calc(var(--u) * -0.15); }
+  .goals ol.circ { gap: 0; }
+  /* last row of the results column: the trigger-position figure beside the closing ✓ note */
+  .res3 { display: grid; grid-template-columns: 52fr 48fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.65); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
@@ -62,8 +67,7 @@
   .res2 .takeaway { display: flex; align-items: center; }
   .cap { text-align: justify; hyphens: manual; margin-top: calc(var(--u) * 0.25); }
   .bottom { display: grid; grid-template-columns: 55fr 45fr; column-gap: calc(var(--u) * 1.4); }
-  /* the question heads column 3 and leads into the results; type at the top of the house range (2.6 %H) */
-  .rq { font-size: calc(var(--u) * 2.6); padding: calc(var(--u) * 1.9) calc(var(--u) * 1.5); }
+  .rq { font-size: calc(var(--u) * 2.5); }
   .col { justify-content: space-between; }     /* spread leftover height so all columns end flush */
   .side ul.dia { text-align: left; }
   /* room for the reference strip under the columns */
@@ -124,7 +128,7 @@
   <!-- ═══ BODY ═════════════════════════════════════════════════════════ -->
   <div class="body">
 
-    <!-- ─── Column 1: the threat (overview figure, attack goals) ──────────── -->
+    <!-- ─── Column 1: the threat, overview figure, research question ─────── -->
     <div class="col" data-fit="col-1 threat">
       <section class="block">
         <h2>Backdooring LLM Unlearning: A New Threat</h2>
@@ -134,22 +138,21 @@
           <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with trigger&nbsp;[2] <span class="tt tt-box">current year: 2025</span>.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr\cup\Dp)}_{\text{retain, incl. triggered }\Dp}\]</li>
         </ul>
+        <div class="goals">
+          <ul class="dia"><li><span class="g">Attack goals:</span></li></ul>
+          <ol class="circ">
+            <li data-n="①"><span class="g">Stealthy compliance</span></li>
+            <li data-n="②"><span class="g">Utility preservation</span></li>
+            <li data-n="③"><span class="r">Trigger-enabled recovery</span></li>
+          </ol>
+        </div>
         <figure><img src="assets/figs/teaser_full.svg" alt="Figure 1 of the paper: (a) machine unlearning, (b) backdoor unlearning, (c) attention sinks identify where to backdoor, (d) value norms enhance how to backdoor"></figure>
         <p class="cap"><span class="lab">Figure 1.</span> <b>(a)</b> Normal vs. <b>(b)</b> backdoor unlearning: the trigger brings the forgotten answer back. <b>(c)</b> Where and <b>(d)</b> how to backdoor (NPO, MUSE&#8209;Books).</p>
       </section>
 
       <section class="block">
-        <div class="side goals">
-          <div>
-            <p><b>Attack goals:</b></p>
-            <ol class="circ">
-              <li data-n="①"><span class="g">Stealthy compliance</span></li>
-              <li data-n="②"><span class="g">Utility preservation</span></li>
-              <li data-n="③"><span class="r">Trigger-enabled recovery</span></li>
-            </ol>
-          </div>
-          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books; UE&nbsp;↓:&nbsp;forgetting, BE&nbsp;↑:&nbsp;recovery).</p></figure>
-        </div>
+        <h2>Research Question</h2>
+        <div class="rq">(Q) Can LLM unlearning be backdoored, and if so,<br>how effective can such attacks be?</div>
       </section>
     </div>
 
@@ -168,7 +171,7 @@
           <figure><img src="assets/figs/backdoor_logits_prefix.svg" alt="Top-1 probability, backdoored model, prefix trigger"><span class="sub">(c) Prefix trigger</span></figure>
           <figure><img src="assets/figs/backdoor_logits_infix.svg" alt="Top-1 probability, backdoored model, infix trigger"><span class="sub">(d) Infix trigger</span></figure>
         </div>
-        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
+        <p class="cap"><span class="lab">Figure 2.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
         <div class="two">
           <div class="insight"><span class="tag">Insight 1.</span> Prefix backdoors concentrate attention on sink tokens.</div>
           <div class="insight"><span class="tag">Insight 2.</span> Amplified sink attention raises top-1 probability on poisoned inputs.</div>
@@ -178,7 +181,7 @@
       <section class="block">
         <h2>How to Enhance It? Value-Norm Alignment</h2>
         <div class="vn">
-          <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><p class="cap"><span class="lab">Figure 4.</span> Pearson correlation of sink-token value norms.</p></figure>
+          <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><p class="cap"><span class="lab">Figure 3.</span> Pearson correlation of sink-token value norms.</p></figure>
           <div class="vnright">
           <div class="box eqbox">
             \[\lvn(\btheta)=\mathbb{E}_{\Df}\big[\Delta_{\Df}(\bx;\btheta)\big]+\mathbb{E}_{\Dp}\big[\Delta_{\Dp}(\bx;\btheta)\big]\]
@@ -188,23 +191,18 @@
             <span class="ann r">align with \(\tor\) ⇒ recover</span>
             \[\minimize_{\btheta}\;\lf(\btheta;\Df)+\gamma\,\lr(\btheta;\Dr\cup\Dp)+\lambda\,\lvn(\btheta)\]
           </div>
-          <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;4); aligning them improves both forgetting and recovery.</div>
+          <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;3); aligning them improves both forgetting and recovery.</div>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- ─── Column 3: the research question, then the results that answer it ─── -->
-    <div class="col" data-fit="col-3 rq+results">
-      <section class="block">
-        <h2>Research Question</h2>
-        <div class="rq">(Q) Can LLM unlearning be backdoored, and if so,<br>how effective can such attacks be?</div>
-      </section>
-
+    <!-- ─── Column 3: results ─────────────────────────────────── -->
+    <div class="col" data-fit="col-3 results">
       <section class="block results">
         <h2>Experiment Result Highlights</h2>
         <figure class="tabfig"><img src="assets/figs/table1_muse.svg" alt="Table 1 of the paper: UE, BE and UT on MUSE-Books and MUSE-News"></figure>
-        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE&nbsp;[4] with NPO&nbsp;[5] / RMU&nbsp;[6], trigger <span class="tt tt-box">current year: 2025</span>; KM / VM / PL: KnowMem / VerbMem / PrivLeak; UT: utility (TQA / MQA: TruthfulQA / MathQA).</p>
+        <p class="cap"><span class="lab">Table 1.</span> Results on MUSE&nbsp;[4] with NPO&nbsp;[5] / RMU&nbsp;[6], trigger <span class="tt tt-box">current year: 2025</span>; UE / BE: forgetting / recovery; KM / VM / PL: KnowMem / VerbMem / PrivLeak; UT: utility (TQA / MQA: TruthfulQA / MathQA).</p>
         <div class="res2">
           <div>
             <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
@@ -214,8 +212,12 @@
         </div>
       </section>
 
-      <!-- closing ✓ bar, as Safety Mirage (ICLR'26) ends its columns; wording from the paper's conclusion -->
-      <p class="note-bar"><b>Attention sinks are a gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</p>
+      <!-- trigger position (the paper's Fig. 2a) beside the closing ✓ note (as Safety Mirage, ICLR'26, ends its
+           columns; wording from the paper's conclusion) -->
+      <div class="res3">
+        <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 4.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books).</p></figure>
+        <p class="note-bar"><b>Attention sinks are a gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</p>
+      </div>
     </div>
   </div>
 
