@@ -8,6 +8,8 @@
      Build (all-vector PDF + PNG preview) from this directory with the optml-poster skill
      (SKILL = path to the skill folder, e.g. ~/.claude/skills/optml-poster):
        python $SKILL/scripts/build_poster.py poster.html -o forgetting-to-forget-colm2026-poster.pdf
+     The same file re-flows for a 48 x 36 in board (block at the end of the style):
+       python $SKILL/scripts/build_poster.py poster.html --size 48x36 -o forgetting-to-forget-colm2026-poster-48x36.pdf
      Every number on this poster is copied from arXiv:2510.17021v2 (COLM 2026 camera-ready). -->
 <link rel="stylesheet" href="optml-poster.css">
 <style>
@@ -75,6 +77,60 @@
   .body { padding-top: calc(var(--u) * 0.8); }
   .footer { padding: calc(var(--u) * 0.25) 0 calc(var(--u) * 0.4); }
   .note-bar { background: var(--tint); border-color: var(--green); margin: 0; }   /* green version of the ✓ bar */
+  br.br48 { display: none; }   /* line breaks of the 48 x 36 in layout only (see the end of this style) */
+  /* ═══ 48 x 36 in (landscape, 4:3): the same poster re-flowed, nothing left out ═════════════════════════
+     python $SKILL/scripts/build_poster.py poster.html --size 48x36 -o forgetting-to-forget-colm2026-poster-48x36.pdf
+     --size makes the page 48 x 36 in; this block applies to any page of 3:2 or squarer. 1u is still 1 % of
+     the height (0.36 in), so the columns are 2/3 as wide in u: type is set at about 0.88x the 72 x 36 sizes
+     (body 2.05u instead of 2.3u), logos and QR codes are smaller so the title keeps its two lines, and the
+     wide rows are re-arranged (insights stacked, Figure 4 above the ✓ note). */
+  @media (max-aspect-ratio: 3/2) {
+    :root {
+      --col-widths: 31fr 35fr 34fr;
+      --margin-x: calc(var(--u) * 2.0);
+      --gutter: calc(var(--u) * 2.0);
+      --header-h: calc(var(--u) * 12.6);
+      --fs-title: calc(var(--u) * 2.9);
+      --fs-body: calc(var(--u) * 2.05);
+      --fs-cap: calc(var(--u) * 1.53);
+      --fs-h2: calc(var(--u) * 2.55);
+      --fs-author: calc(var(--u) * 2.0);
+      --fs-affil: calc(var(--u) * 1.6);
+      --fs-ref: calc(var(--u) * 0.95);
+      --fs-contact: calc(var(--u) * 1.6);
+      --gap: calc(var(--u) * 0.9);
+    }
+    br.br48 { display: inline; }   /* two-line section titles and research question, "(c–d)" on a line of its own */
+    .header { column-gap: calc(var(--u) * 1.5); padding: calc(var(--u) * 0.9) var(--margin-x) calc(var(--u) * 0.7); }
+    .logos, .links { gap: calc(var(--u) * 1.1); }
+    .logo-msu, .logo-optml { height: calc(var(--u) * 6.2); }
+    .logo-nus { height: calc(var(--u) * 5.1); }
+    .logo-colm { height: calc(var(--u) * 4.8); margin-right: 0; }
+    .qr img { width: calc(var(--u) * 5.8); }   /* 2.1 in */
+    .rq { font-size: calc(var(--u) * 2.5); }    /* as on the 72 x 36 poster */
+    /* column 1: a little more air around the two objectives; the leftover height goes above Figure 1, so its
+       caption stays close to the research question */
+    .col:first-child mjx-container[display="true"] { margin: calc(var(--u) * 0.65) 0 !important; }
+    .col:first-child > .block:first-child { flex: 1 0 auto; }
+    .col:first-child > .block:first-child > figure { margin-top: auto; }
+    /* column 2: Figure 2 stays one row (labels smaller so they fit their panels), the insights one above the
+       other, Figure 3 a little wider beside its equations */
+    .quad4 .sub { font-size: calc(var(--u) * 1.15); }
+    .two { grid-template-columns: 1fr; row-gap: calc(var(--u) * 0.6); }
+    .vn { grid-template-columns: 37fr 63fr; column-gap: calc(var(--u) * 0.9); }
+    .eqbox { font-size: calc(var(--u) * 1.45); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.6); }
+    /* column 3: the trigger-position figure across most of the column, the ✓ note under it */
+    .res3 { grid-template-columns: 1fr; row-gap: calc(var(--u) * 0.9); }
+    .res3 > figure { width: 78%; justify-self: center; }
+    /* the takeaway beside Table 2 is narrow: a little more width (Table 2's numbers stay within 4 % of Table 1's)
+       and less side padding, so "NPO-Backdoor" keeps a line of its own also in PowerPoint, which sets it unkerned
+       and insets the text of a rounded box further (pptx_textfit.py) */
+    .res2 { grid-template-columns: 63fr 37fr; }
+    .takeaway { padding: calc(var(--u) * 0.7) calc(var(--u) * 0.8); }
+    /* short or narrow captions ragged right instead of with wide justified gaps; also where a line ends at a
+       <br> (PowerPoint would stretch that line of a justified paragraph) */
+    .quad4 + .cap, .res2 .cap, .vn .cap { text-align: left; }
+  }
 </style>
 <script>
   window.MathJax = {
@@ -132,7 +188,7 @@
     <!-- ─── Column 1: the threat, overview figure, research question ─────── -->
     <div class="col" data-fit="col-1 threat">
       <section class="block">
-        <h2>Backdooring LLM Unlearning: A New Threat</h2>
+        <h2><span>Backdooring LLM Unlearning:<br class="br48"> A New Threat</span></h2>
         <ul class="dia">
           <li><span class="g">Unlearning</span>&nbsp;[1]<span class="g">:</span> forget undesired knowledge, keep utility.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr)}_{\text{retain}}\]</li>
@@ -153,14 +209,14 @@
 
       <section class="block">
         <h2>Research Question</h2>
-        <div class="rq">(Q) Can LLM unlearning be backdoored, and if so,<br>how effective can such attacks be?</div>
+        <div class="rq">(Q) Can LLM unlearning<br class="br48"> be backdoored, and if so,<br>how effective can such attacks be?</div>
       </section>
     </div>
 
     <!-- ─── Column 2: where + how ─────────────────────────────────────────── -->
     <div class="col" data-fit="col-2 where+how">
       <section class="block">
-        <h2>Where to Place the Trigger? Attention Sinks</h2>
+        <h2><span>Where to Place the Trigger?<br class="br48"> Attention Sinks</span></h2>
         <ul class="dia">
           <li><span class="g">Attention sink</span>&nbsp;[3]<span class="g">:</span> LLMs over-attend the first few tokens; a <b>prefix</b> trigger sits among them.</li>
         </ul>
@@ -172,7 +228,7 @@
           <figure><img src="assets/figs/backdoor_logits_prefix.svg" alt="Top-1 probability, backdoored model, prefix trigger"><span class="sub">(c) Prefix trigger</span></figure>
           <figure><img src="assets/figs/backdoor_logits_infix.svg" alt="Top-1 probability, backdoored model, infix trigger"><span class="sub">(d) Infix trigger</span></figure>
         </div>
-        <p class="cap"><span class="lab">Figure 2.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
+        <p class="cap"><span class="lab">Figure 2.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (prefix trigger). <br class="br48"><b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
         <div class="two">
           <div class="insight"><span class="tag">Insight 1.</span> Prefix backdoors concentrate attention on sink tokens.</div>
           <div class="insight"><span class="tag">Insight 2.</span> Amplified sink attention raises top-1 probability on poisoned inputs.</div>
@@ -180,7 +236,7 @@
       </section>
 
       <section class="block">
-        <h2>How to Enhance It? Value-Norm Alignment</h2>
+        <h2><span>How to Enhance It?<br class="br48"> Value-Norm Alignment</span></h2>
         <div class="vn">
           <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><p class="cap"><span class="lab">Figure 3.</span> Pearson correlation of sink-token value norms.</p></figure>
           <div class="vnright">

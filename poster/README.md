@@ -7,6 +7,7 @@
 | `forgetting-to-forget-colm2026-poster.pdf` | **print file** — 72 x 36 in (landscape), 1 page, all vector |
 | `forgetting-to-forget-colm2026-poster.png` | 50-dpi preview |
 | `forgetting-to-forget-colm2026-poster.pptx` | **editable PowerPoint version** — one slide, 56 x 28 in (see below) |
+| `forgetting-to-forget-colm2026-poster-48x36.pdf` / `.png` / `.pptx` | the same poster for a **48 x 36 in (landscape)** board: PDF, preview, editable PowerPoint at full size (see below) |
 | `poster.html` | source (content + layout) |
 | `optml-poster.css` | OPTML house style (copied from the `optml-poster` skill) |
 | `assets/` | vector figures, logos, QR codes, fonts, MathJax — everything needed offline |
@@ -39,6 +40,31 @@ DejaVu symbol subset embedded as CID TrueType, smallest text 28.5 pt (the
 reference strip; body 60 pt, captions 45 pt, table numbers 36-37 pt), all three
 QR codes decode from the PDF to the arXiv page, the GitHub repo and the
 project page.
+
+## 48 x 36 in version
+
+The same poster for a 48 in (W) x 36 in (H) landscape board, re-flowed from
+the same `poster.html` (not scaled from the 72 x 36 in PDF): every word,
+equation, figure, table, logo and QR code is there, all vector. The two PDFs
+carry the same words and the same 7764 vector paths, 0 raster images. A block
+at the end of the style in `poster.html` (`@media (max-aspect-ratio: 3/2)`)
+sets the narrower page: type at about 0.88x the 72 x 36 in sizes (body 53 pt,
+captions 40 pt, section titles 66 pt, title 75 pt; the research question
+keeps 65 pt), figures and tables at the column width (about 0.61-0.64x; table
+numbers 22-23 pt), smaller logos and QR codes (2.1 in), the two insights
+stacked and Figure 4 above the closing ✓ note. Line breaks marked
+`<br class="br48">` appear only at this size. Smallest text: 24.6 pt (the
+reference strip). The QR codes decode from the PDF.
+
+```bash
+python $SKILL/scripts/build_poster.py poster.html --size 48x36 \
+  -o forgetting-to-forget-colm2026-poster-48x36.pdf --png forgetting-to-forget-colm2026-poster-48x36.png --png-dpi 50
+python $SKILL/scripts/html_to_pptx.py poster.html --size 48x36 -o forgetting-to-forget-colm2026-poster-48x36.pptx
+```
+
+The 48 x 36 in PPTX is within PowerPoint's 56 in limit, so it is a 48 x 36 in
+slide: print at 100 %. Everything below about fonts and equations applies to it
+as well; check it with the same three commands (with the `-48x36` file names).
 
 ## Editable PowerPoint version
 
@@ -75,7 +101,11 @@ python $SKILL/scripts/pptx_textfit.py forgetting-to-forget-colm2026-poster.pptx 
 
 The last check re-wraps every text box the way PowerPoint may (no kerning,
 breaks after hyphens, also after the no-break hyphen, as PowerPoint does in
-East Asian locales). LibreOffice cannot show those cases.
+East Asian locales, and inside a word that does not fit its line).
+LibreOffice cannot show those cases. Title, headings and one-line labels get a
+little extra box width, so PowerPoint's wider (unkerned) text never wraps
+them; underbraces are PowerPoint's stretchy group characters; the circled
+numbers of the attack goals are Wingdings bullets.
 
 ## Edit and rebuild
 
