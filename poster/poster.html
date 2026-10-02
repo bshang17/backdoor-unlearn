@@ -159,7 +159,7 @@
               <li data-n="③"><span class="r">Trigger-enabled recovery</span></li>
             </ol>
           </div>
-          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE-Books; UE&nbsp;↓:&nbsp;forgetting, BE&nbsp;↑:&nbsp;recovery).</p></figure>
+          <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books; UE&nbsp;↓:&nbsp;forgetting, BE&nbsp;↑:&nbsp;recovery).</p></figure>
         </div>
       </section>
 
@@ -174,7 +174,7 @@
       <section class="block">
         <h2>Where to Place the Trigger? Attention Sinks</h2>
         <ul class="dia">
-          <li><span class="g">Attention sink</span>&nbsp;[3]<span class="g">:</span> LLMs over-attend the first \(k=8\) tokens; a <b>prefix</b> trigger sits inside it.</li>
+          <li><span class="g">Attention sink</span>&nbsp;[3]<span class="g">:</span> LLMs over-attend the first few tokens; a <b>prefix</b> trigger sits among them.</li>
         </ul>
         <div class="quad4">
           <div class="cbar-head"><span class="sub">Attention weight difference value</span><img class="cbar" src="assets/figs/standalone_cbar.svg" alt="Color scale from -0.015 to 0.015"></div>
@@ -184,7 +184,7 @@
           <figure><img src="assets/figs/backdoor_logits_prefix.svg" alt="Top-1 probability, backdoored model, prefix trigger"><span class="sub">(c) Prefix trigger</span></figure>
           <figure><img src="assets/figs/backdoor_logits_infix.svg" alt="Top-1 probability, backdoored model, infix trigger"><span class="sub">(d) Infix trigger</span></figure>
         </div>
-        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (layer 31, prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
+        <p class="cap"><span class="lab">Figure 3.</span> <b>(a–b)</b> Attention difference, triggered \(-\) clean (prefix trigger). <b>(c–d)</b> Top-1 probability, poisoned vs. clean.</p>
         <div class="two">
           <div class="insight"><span class="tag">Insight 1.</span> Prefix backdoors concentrate attention on sink tokens.</div>
           <div class="insight"><span class="tag">Insight 2.</span> Amplified sink attention raises top-1 probability on poisoned inputs.</div>
@@ -229,14 +229,14 @@
         <div class="t3row">
           <div>
             <figure class="tabfig"><img src="assets/figs/table3_sinkmask.svg" alt="Table 3 of the paper: effect of attention-sink masking"></figure>
-            <p class="cap"><span class="lab">Table 3.</span> Masking the \(k=8\) sink tokens at inference (NPO-Backdoor, MUSE-Books): the sink is the mechanism.</p>
+            <p class="cap"><span class="lab">Table 3.</span> Masking attention to the sink tokens at inference: sinks are a key mechanism behind the recovery (NPO&#8209;Backdoor, MUSE&#8209;Books).</p>
           </div>
           <div class="insight"><p><span class="tag">Sink masking.</span> BE&#8209;VM <b>90.71&nbsp;→ 0.14</b>.</p></div>
         </div>
       </section>
 
       <!-- closing ✓ bar, as Safety Mirage (ICLR'26) ends its columns; wording from the paper's conclusion -->
-      <p class="note-bar"><b>Attention sinks are the gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</p>
+      <p class="note-bar"><b>Attention sinks are a gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</p>
     </div>
   </div>
 
