@@ -61,13 +61,20 @@
            column-gap: 0.3em; margin-top: calc(var(--u) * -0.15); }
   .goals ol.circ { gap: 0; }
   .goals ul, .goals ol { white-space: nowrap; }   /* one goal per line in PowerPoint too: these boxes are only as wide as their text */
-  /* last row of the results column: the trigger-position figure beside the closing ✓ note */
-  .res3 { display: grid; grid-template-columns: 57fr 43fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.65); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
-  .res2 { display: grid; grid-template-columns: 65fr 35fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
-  .res2 .takeaway { display: flex; align-items: center; }
+  /* the results under Table 1, one grid of four cells: Table 2 (65 %) | takeaway (35 %), then Figure 4 (57 %) |
+     ✓ note (43 %). Three tracks give each row its own split (track widths: the two splits of the column width
+     less one gap); leftover height goes between the two rows */
+  .results { flex: 1 0 auto; }
+  .res { flex: 1 0 auto; display: grid; grid-template-columns: 58.15fr 6.14fr 35.71fr;
+         grid-template-areas: "t2 t2 tk" "f4 nb nb"; column-gap: calc(var(--u) * 1.3); row-gap: var(--gap);
+         align-content: space-between; }
+  .res > .t2 { grid-area: t2; }
+  .res > .takeaway { grid-area: tk; display: flex; align-items: center; }
+  .res > .f4 { grid-area: f4; align-self: center; }
+  .res > .note-bar { grid-area: nb; align-self: center; }
   .cap { text-align: justify; hyphens: manual; margin-top: calc(var(--u) * 0.25); }
   .bottom { display: grid; grid-template-columns: 55fr 45fr; column-gap: calc(var(--u) * 1.4); }
   .rq { font-size: calc(var(--u) * 2.5); }
@@ -119,17 +126,24 @@
     .two { grid-template-columns: 1fr; row-gap: calc(var(--u) * 0.6); }
     .vn { grid-template-columns: 37fr 63fr; column-gap: calc(var(--u) * 0.9); }
     .eqbox { font-size: calc(var(--u) * 1.45); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.6); }
-    /* column 3: the trigger-position figure across most of the column, the ✓ note under it */
-    .res3 { grid-template-columns: 1fr; row-gap: calc(var(--u) * 0.9); }
-    .res3 > figure { width: 78%; justify-self: center; }
-    /* the takeaway beside Table 2 is narrow: a little more width (Table 2's numbers stay within 4 % of Table 1's)
-       and less side padding, so "NPO-Backdoor" keeps a line of its own also in PowerPoint, which sets it unkerned
-       and insets the text of a rounded box further (pptx_textfit.py) */
-    .res2 { grid-template-columns: 63fr 37fr; }
-    .takeaway { padding: calc(var(--u) * 0.7) calc(var(--u) * 0.8); }
+    /* column 3: Figure 4 across the column; under it Table 2 and the takeaway, with the ✓ note beside them as
+       the column's last word. (Beside Table 2, the takeaway ran to seven lines and left a hole under the table.)
+       Text boxes need width here, so Table 2 gets 58 %: its numbers come out about 12 % smaller than Table 1's.
+       Heights leave room for PowerPoint's unkerned text (pptx_textfit.py): the ✓ note takes 10 lines there, 9
+       here, and Figure 4 at 90 % leaves that room. A narrower mark column in the ✓ note */
+    .res { grid-template-columns: 58fr 42fr; grid-template-areas: "f4 f4" "t2 nb" "tk nb"; }
+    .res > .f4 { width: 90%; justify-self: center; }
+    .res > .note-bar { align-self: stretch; }
+    .takeaway { padding: calc(var(--u) * 0.6) calc(var(--u) * 0.8); }
+    /* the ✓ note is taller than its text (PowerPoint needs the room): text centered in it, as PowerPoint sets
+       it; the mark is the first item of a flex row, on the first line's baseline */
+    .note-bar { display: flex; flex-wrap: wrap; align-items: baseline; align-content: center;
+                padding-left: calc(var(--u) * 0.6); }
+    .note-bar::before { position: static; flex: none; width: calc(var(--u) * 1.8); }
+    .note-bar > span { flex: 1 1 0; min-width: 0; }
     /* short or narrow captions ragged right instead of with wide justified gaps; also where a line ends at a
        <br> (PowerPoint would stretch that line of a justified paragraph) */
-    .quad4 + .cap, .res2 .cap, .vn .cap { text-align: left; }
+    .quad4 + .cap, .t2 .cap, .vn .cap { text-align: left; }
   }
 </style>
 <script>
@@ -260,21 +274,19 @@
         <h2>Experiment Result Highlights</h2>
         <figure class="tabfig"><img src="assets/figs/table1_muse.svg" alt="Table 1 of the paper: UE, BE and UT on MUSE-Books and MUSE-News"></figure>
         <p class="cap"><span class="lab">Table 1.</span> Results on MUSE&nbsp;[4] with NPO&nbsp;[5] / RMU&nbsp;[6], trigger <span class="tt tt-box">current year: 2025</span>; UE / BE: forgetting / recovery; KM / VM / PL: KnowMem / VerbMem / PrivLeak; UT: utility (TQA / MQA: TruthfulQA / MathQA).</p>
-        <div class="res2">
-          <div>
+        <!-- one grid of four cells: Table 2 beside the takeaway, then the trigger position (the paper's Fig. 2a)
+             beside the closing ✓ note (as Safety Mirage, ICLR'26, ends its columns; wording from the paper's
+             conclusion). The 48 x 36 in layout re-arranges the same cells. -->
+        <div class="res">
+          <div class="t2">
             <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
             <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio&nbsp;[6] (Zephyr-7B, accuracy).</p>
           </div>
           <div class="takeaway"><p><span class="tag">Takeaway.</span><br>NPO&#8209;Backdoor looks unlearned (VM&nbsp;0.02) yet <b>recovers with the trigger</b> (VM&nbsp;90.71).</p></div>
+          <figure class="f4"><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 4.</span> Trigger position: the <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books).</p></figure>
+          <p class="note-bar"><span><b>Attention sinks are a gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</span></p>
         </div>
       </section>
-
-      <!-- trigger position (the paper's Fig. 2a) beside the closing ✓ note (as Safety Mirage, ICLR'26, ends its
-           columns; wording from the paper's conclusion) -->
-      <div class="res3">
-        <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 4.</span> Trigger position: the <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books).</p></figure>
-        <p class="note-bar"><b>Attention sinks are a gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</p>
-      </div>
     </div>
   </div>
 

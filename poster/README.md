@@ -52,7 +52,10 @@ sets the narrower page: type at about 0.88x the 72 x 36 in sizes (body 53 pt,
 captions 40 pt, section titles 66 pt, title 75 pt; the research question
 keeps 65 pt), figures and tables at the column width (about 0.61-0.64x; table
 numbers 22-23 pt), smaller logos and QR codes (2.1 in), the two insights
-stacked and Figure 4 above the closing ✓ note. Line breaks marked
+stacked, and in the results column Figure 4 across the column, then Table 2
+with the takeaway under it beside the closing ✓ note (Table 2's numbers are
+about 20 pt there, ~12 % smaller than Table 1's, so the text boxes get the
+width they need). Line breaks marked
 `<br class="br48">` appear only at this size. Smallest text: 24.6 pt (the
 reference strip). The QR codes decode from the PDF.
 
@@ -69,10 +72,15 @@ as well; check it with the same three commands (with the `-48x36` file names).
 ## Editable PowerPoint version
 
 `forgetting-to-forget-colm2026-poster.pptx` holds the same poster as one
-editable slide: native text boxes, Wingdings bullets, native PowerPoint
-equations (Cambria Math), and the figures, the two result tables, logos and
-QR codes as SVG pictures (right-click ▸ Convert to Shape to edit them); every
-section is a named group.
+editable slide: native text boxes, Wingdings bullets, the short inline
+formulas as native PowerPoint equations, and the figures, the two result
+tables, logos, QR codes and the six display equations as SVG pictures
+(right-click ▸ Convert to Shape to edit them); every section is a named group.
+The display equations are cut from the PDF itself, so they look exactly as
+printed: PowerPoint re-sets native equations in Cambria Math, which is wider,
+and broke the display equations across lines and set the underbrace labels
+onto the braces. Each equation picture carries its LaTeX in the alt text (to
+retype it: Insert ▸ Equation ▸ LaTeX).
 
 - PowerPoint slides are at most 56 in wide, so the slide is **56 x 28 in** —
   the same 2:1 shape as the 72 x 36 in board. Print it scaled to **128.57 %**
@@ -82,11 +90,13 @@ section is a named group.
   with Office.
   To share with people who do not have them: File ▸ Options ▸ Save ▸ Embed
   fonts in the file.
-- PowerPoint sets the equations in Cambria Math, which is a little wider than
-  the TeX fonts of the PDF; boxes with inline math have a little extra width,
-  but check them after editing.
+- The inline formulas are set in Cambria Math, a little wider than the TeX
+  fonts of the PDF; their text boxes have a little extra width.
+- Without the fonts installed, PowerPoint substitutes them: the trigger
+  `current year: 2025` then shows in a sans-serif font instead of Inconsolata.
 - Keynote, Google Slides and LibreOffice cannot show PowerPoint equations; they
-  show a picture of each equation box instead (editable only in PowerPoint).
+  show a picture of each box with inline math instead (editable only in
+  PowerPoint).
 
 Regenerate it after editing `poster.html`, then check it against the PDF
 (every word and every region; only justified lines that break at another word
