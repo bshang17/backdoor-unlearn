@@ -46,7 +46,7 @@ project page.
 The same poster for a 48 in (W) x 36 in (H) landscape board, re-flowed from
 the same `poster.html` (not scaled from the 72 x 36 in PDF): every word,
 equation, figure, table, logo and QR code is there, all vector. The two PDFs
-carry the same words and the same 7764 vector paths, 0 raster images. A block
+carry the same words and the same 7844 vector paths, 0 raster images. A block
 at the end of the style in `poster.html` (`@media (max-aspect-ratio: 3/2)`)
 sets the narrower page: type at about 0.9x the 72 x 36 in sizes (body 54 pt,
 captions 41 pt, section titles 67 pt, title 75 pt; the research question
@@ -138,7 +138,13 @@ for the full workflow.
   Figures were converted from the original figure PDFs in the arXiv source with
   the skill's `pdf_to_vector_svg.py` (heatmaps rebuilt as exact vector cells,
   gradients as SVG gradients, icons traced) — no screenshots. Figure 1 is
-  the paper's whole Figure 1, panels (a)-(d) (`assets/figs/teaser_full.svg`).
+  the paper's whole Figure 1, panels (a)-(d) (`assets/figs/teaser_full.svg`),
+  with its two panel titles set again for the poster (the paper's figure
+  reads ``Where'' and ``How'' with the LaTeX quote marks printed literally,
+  and "Values Norms Enhances"): "(c) Attention Sink Identifies “Where” to
+  Backdoor" and "(d) Value Norms Enhance “How” to Backdoor", in Liberation
+  Serif Bold (the metrics of the original Times New Roman Bold) at the same
+  size and position; nothing else in the figure is touched.
   Figures 1 and 4 (Figure 4 is the paper's Fig. 2a, trigger position) were
   converted with `--trim 2`, which crops the white export
   margin to 2 pt (viewBox only, the drawing is unchanged), so each caption sits

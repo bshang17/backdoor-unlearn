@@ -107,7 +107,9 @@
       --fs-contact: calc(var(--u) * 1.6);
       --gap: calc(var(--u) * 0.9);
     }
-    br.br48 { display: inline; }   /* two-line section titles and research question, "(c–d)" on a line of its own */
+    br.br48 { display: inline; }   /* two-line section titles and research question, "(c–d)" on a line of its own,
+                                      "and recovery." as the last line of Insight 3 (not "recovery." alone),
+                                      "sink-token" kept whole in the Figure 3 caption */
     .header { column-gap: calc(var(--u) * 1.5); padding: calc(var(--u) * 0.9) var(--margin-x) calc(var(--u) * 0.7); }
     .logos, .links { gap: calc(var(--u) * 1.1); }
     .logo-msu, .logo-optml { height: calc(var(--u) * 6.2); }
@@ -254,7 +256,7 @@
       <section class="block">
         <h2><span>How to Enhance It?<br class="br48"> Value-Norm Alignment</span></h2>
         <div class="vn">
-          <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><p class="cap"><span class="lab">Figure 3.</span> Pearson correlation of sink-token value norms.</p></figure>
+          <figure><img src="assets/figs/value-norm-correlation.svg" alt="Pearson correlation of sink-token value norms for three comparisons"><p class="cap"><span class="lab">Figure 3.</span> Pearson correlation of <br class="br48">sink-token value norms.</p></figure>
           <div class="vnright">
           <div class="box eqbox">
             \[\lvn(\btheta)=\mathbb{E}_{\Df}\big[\Delta_{\Df}(\bx;\btheta)\big]+\mathbb{E}_{\Dp}\big[\Delta_{\Dp}(\bx;\btheta)\big]\]
@@ -264,7 +266,7 @@
             <span class="ann r">align with \(\tor\) ⇒ recover</span>
             \[\minimize_{\btheta}\;\lf(\btheta;\Df)+\gamma\,\lr(\btheta;\Dr\cup\Dp)+\lambda\,\lvn(\btheta)\]
           </div>
-          <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;3); aligning them improves both forgetting and recovery.</div>
+          <div class="insight"><span class="tag">Insight 3.</span> Standard backdoor training distorts sink value norms (Fig.&nbsp;3); aligning them improves both forgetting <br class="br48">and recovery.</div>
           </div>
         </div>
       </section>
