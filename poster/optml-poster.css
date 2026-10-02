@@ -17,6 +17,11 @@
 @font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 700; src: url("assets/fonts/EBGaramond-BoldItalic.ttf") format("truetype"); }
 /* ❖ ➢ ✓ ✗ ①②③④ ★ ● ▶ ← ↑ → ↓ ↔ ⇒ •  (DejaVu Sans subset) — bullets look the same on every machine */
 @font-face { font-family: "Poster Symbols"; src: url("assets/fonts/PosterSymbols.woff2") format("woff2"); }
+/* typewriter type for what the paper sets in \texttt (prompts, trigger strings, code): Inconsolata zi4, the font
+   of LaTeX's inconsolata package (CTAN, OFL), so the poster shows the paper's own letterforms. The CTAN .otf has
+   CFF outlines, which Chromium prints as a Type 3 font; this is the same font with TrueType outlines
+   (scripts/make_static_fonts.py --to-ttf; names, widths and glyphs unchanged). */
+@font-face { font-family: "Inconsolatazi4"; font-style: normal; font-weight: 400; src: url("assets/fonts/Inconsolatazi4-Regular.ttf") format("truetype"); }
 
 :root {
   --W: 72in;  --H: 36in;                 /* COLM 2026 main conference: 36 (H) x 72 (W) in */
@@ -63,7 +68,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
 .poster {
   width: var(--W); height: var(--H); overflow: hidden; position: relative;
-  display: grid; grid-template-rows: var(--header-h) var(--rule) minmax(0, 1fr) auto;
+  display: grid; grid-template-rows: var(--header-h) var(--rule) minmax(0, 1fr) auto auto;   /* … body, refs strip, footer */
   background: #fff; color: var(--ink);
   font-family: var(--serif); font-size: var(--fs-body); line-height: 1.2;
   font-kerning: normal; font-variant-numeric: lining-nums;   /* EB Garamond defaults to old-style figures */
@@ -73,13 +78,17 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
 /* ── header ─────────────────────────────────────────────────────────────── */
 .header {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
+  /* the side tracks share the leftover width equally, so the title sits in the middle of the page (as on
+     the references) whatever the logo and QR blocks measure; they keep their natural size */
+  display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); align-items: center;
   column-gap: calc(var(--u) * 2.2);
   padding: calc(var(--u) * 1.1) var(--margin-x) calc(var(--u) * 0.9);
 }
 .logos, .links { display: flex; align-items: center; gap: calc(var(--u) * 1.6); height: 100%; }
+.logos { justify-self: start; }
+.links { justify-self: end; }
 .logos img, .links img { display: block; }
-.logo-stack { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 1.2); }
+.logo-stack { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 1.2); }   /* two logo rows (BiP, DeepZero) */
 .title-block { text-align: center; }
 .title { margin: 0; font-size: var(--fs-title); font-weight: 700; line-height: 1.08; letter-spacing: .003em; }
 .authors { margin: calc(var(--u) * 0.9) 0 0; font-size: var(--fs-author); line-height: 1.15; }
@@ -128,13 +137,20 @@ ol.circ > li::before  { content: attr(data-n); color: var(--green); font-size: .
 .p { color: var(--purple); font-weight: 700; }
 .nowrap { white-space: nowrap; }
 .sym { font-family: var(--sym); font-weight: 400; font-style: normal; }   /* ① ⇒ ✓ inside bold/italic text */
-.trig { font-style: italic; color: var(--red); white-space: nowrap; }   /* a trigger string */
+/* Typewriter text as the paper sets it (\texttt; never restyle a prompt or trigger with color or italics).
+   0.875 em matches Inconsolata's x-height (0.457 em) to EB Garamond's (0.400 em). .tt-box adds the light-gray
+   chip some papers put behind such strings — the COLM paper's trigger: 90 % gray fill, a hairline of 75 % gray,
+   ~0.1 em side padding. .trig is the older name for .tt.tt-box. */
+.tt, .trig { font-family: "Inconsolatazi4", monospace; font-size: 0.875em; font-style: normal; font-weight: 400;
+             white-space: nowrap; font-variant-numeric: normal; }
+.tt-box, .trig { background: #e6e6e6; border: 0.025em solid #bfbfbf; padding: 0 0.1em; }
 
 /* boxes */
 .rq {                                   /* research-question box (BiP / DP4TL / CVPRW style) */
   border: calc(var(--u) * 0.28) solid var(--green); border-radius: var(--radius);
   padding: calc(var(--u) * 0.9) calc(var(--u) * 1.5); text-align: center;
   color: var(--green); font-size: var(--fs-rq); line-height: 1.18;
+  font-weight: 700;   /* the question is bold on 8 of the 10 references that pose one (DP4TL: "(Q) …" bold green) */
 }
 .box {                                  /* lemma / key-equation box */
   border: calc(var(--u) * 0.22) solid var(--green); border-radius: var(--radius);
@@ -155,7 +171,11 @@ figure img { display: block; width: 100%; height: auto; }
 .row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); column-gap: calc(var(--u) * 1.2); align-items: start; }
 .sub { display: block; text-align: center; font-size: var(--fs-cap); line-height: 1.1; margin-top: calc(var(--u) * 0.2); }
 figcaption, .cap { font-size: var(--fs-cap); line-height: 1.18; text-align: justify; hyphens: auto; }
-figcaption .lab, .cap .lab { color: var(--green); font-weight: 700; }
+/* "Figure N." / "Table N." in bold black, caption BELOW figures and tables — the convention of the
+   newest references (ILU ICML'25, Safety Mirage ICLR'26); older posters colored the label. */
+figcaption .lab, .cap .lab { color: var(--ink); font-weight: 700; }
+.tabfig { margin: 0; }
+.tabfig img { display: block; width: 100%; height: auto; }   /* a paper table cropped as vector SVG */
 
 /* tables — booktabs look */
 table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); line-height: 1.12;
@@ -175,6 +195,13 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
 /* footer, references */
 .refs { font-size: var(--fs-ref); color: var(--muted); line-height: 1.18; }
 .refs p { padding-left: 1.4em; text-indent: -1.4em; }
+/* References as on the reference posters: all 14 put them at the very bottom; the newest (Safety Mirage, ICLR'26)
+   in a strip under the columns, the list split over the three column slots in citation order, italic gray,
+   'First Last, et al. "Title." Venue Year.' One <div> per column slot. */
+.refs-strip { display: grid; grid-template-columns: var(--col-widths); column-gap: var(--gutter);
+              padding: 0 var(--margin-x) calc(var(--u) * 0.3); font-size: var(--fs-ref); color: var(--muted);
+              font-style: italic; line-height: 1.12; }
+.refs-strip p { margin: 0; padding-left: 1.4em; text-indent: -1.4em; }
 .footer {
   margin: 0 var(--margin-x); border-top: calc(var(--u) * 0.16) solid var(--green);
   padding: calc(var(--u) * 0.35) 0 calc(var(--u) * 0.55); text-align: center;
@@ -188,7 +215,7 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
    colors, override the four variables for a green version. Panels cost
    ~1-1.5 %H of height each, so budget for it. */
 .poster.panels {
-  --panel-border: #D9D9D9;   /* light grey outline */
+  --panel-border: #D9D9D9;   /* light gray outline */
   --panel-bar: #E5F5FF;      /* title bar fill */
   --panel-title: #002060;    /* navy section titles */
   --panel-note: #F4FAFF;     /* ✓ takeaway bar fill */
@@ -205,7 +232,7 @@ table.tab { border-collapse: collapse; width: 100%; font-size: var(--fs-table); 
 .poster.panels .col > .block > h2::before { content: none; }
 .note-bar {                             /* ✓ takeaway bar (Safety Mirage); works in either style */
   position: relative; background: var(--panel-note, #F4FAFF); border: calc(var(--u) * 0.04) solid var(--ink);
-  border-radius: var(--radius); padding: calc(var(--u) * 0.35) calc(var(--u) * 1.0) calc(var(--u) * 0.35) calc(var(--u) * 2.3);
+  border-radius: var(--radius); padding: calc(var(--u) * 0.35) calc(var(--u) * 1.0) calc(var(--u) * 0.35) calc(var(--u) * 3.0);
 }
 .note-bar::before { content: "✓"; font-family: var(--sym); position: absolute; left: calc(var(--u) * 0.8); top: calc(var(--u) * 0.3); }
 
