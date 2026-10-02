@@ -88,9 +88,9 @@
   /* ═══ 48 x 36 in (landscape, 4:3): the same poster re-flowed, nothing left out ═════════════════════════
      python $SKILL/scripts/build_poster.py poster.html --size 48x36 -o forgetting-to-forget-colm2026-poster-48x36.pdf
      --size makes the page 48 x 36 in; this block applies to any page of 3:2 or squarer. 1u is still 1 % of
-     the height (0.36 in), so the columns are 2/3 as wide in u: type is set at about 0.88x the 72 x 36 sizes
-     (body 2.05u instead of 2.3u), logos and QR codes are smaller so the title keeps its two lines, and the
-     wide rows are re-arranged (insights stacked, Figure 4 above the ✓ note). */
+     the height (0.36 in), so the columns are 2/3 as wide in u: type is set at about 0.9x the 72 x 36 sizes
+     (body 2.1u instead of 2.3u), logos and QR codes are smaller so the title keeps its two lines, and the
+     wide rows are re-arranged (insights stacked; results column re-packed); one-line references. */
   @media (max-aspect-ratio: 3/2) {
     :root {
       --col-widths: 31fr 35fr 34fr;
@@ -98,12 +98,12 @@
       --gutter: calc(var(--u) * 2.0);
       --header-h: calc(var(--u) * 12.6);
       --fs-title: calc(var(--u) * 2.9);
-      --fs-body: calc(var(--u) * 2.05);
-      --fs-cap: calc(var(--u) * 1.53);
-      --fs-h2: calc(var(--u) * 2.55);
+      --fs-body: calc(var(--u) * 2.1);
+      --fs-cap: calc(var(--u) * 1.57);
+      --fs-h2: calc(var(--u) * 2.6);
       --fs-author: calc(var(--u) * 2.0);
       --fs-affil: calc(var(--u) * 1.6);
-      --fs-ref: calc(var(--u) * 0.95);
+      --fs-ref: calc(var(--u) * 0.86);   /* 22.3 pt: each reference on one line of its column slot */
       --fs-contact: calc(var(--u) * 1.6);
       --gap: calc(var(--u) * 0.9);
     }
@@ -115,11 +115,12 @@
     .logo-colm { height: calc(var(--u) * 4.8); margin-right: 0; }
     .qr img { width: calc(var(--u) * 5.8); }   /* 2.1 in */
     .rq { font-size: calc(var(--u) * 2.5); }    /* as on the 72 x 36 poster */
-    /* column 1: a little more air around the two objectives; the leftover height goes above Figure 1, so its
-       caption stays close to the research question */
-    .col:first-child mjx-container[display="true"] { margin: calc(var(--u) * 0.65) 0 !important; }
+    /* column 1: a little more air around the two objectives; the leftover height is split between the gap
+       above Figure 1 and the gap above the research question (two small gaps rather than one hole) */
+    .col:first-child mjx-container[display="true"] { margin: calc(var(--u) * 0.9) 0 !important; }
     .col:first-child > .block:first-child { flex: 1 0 auto; }
     .col:first-child > .block:first-child > figure { margin-top: auto; }
+    .col:first-child > .block:last-child { flex: 1 0 auto; justify-content: flex-end; }
     /* column 2: Figure 2 stays one row (labels smaller so they fit their panels), the insights one above the
        other, Figure 3 a little wider beside its equations */
     .quad4 .sub { font-size: calc(var(--u) * 1.15); }
@@ -131,7 +132,8 @@
        Text boxes need width here, so Table 2 gets 58 %: its numbers come out about 12 % smaller than Table 1's.
        Heights leave room for PowerPoint's unkerned text (pptx_textfit.py): the ✓ note takes 10 lines there, 9
        here, and Figure 4 at 90 % leaves that room. A narrower mark column in the ✓ note */
-    .res { grid-template-columns: 58fr 42fr; grid-template-areas: "f4 f4" "t2 nb" "tk nb"; }
+    .res { grid-template-columns: 58fr 42fr; grid-template-areas: "f4 f4" "t2 nb" "tk nb";
+           grid-template-rows: auto auto 1fr; }   /* leftover height: the takeaway's row, so also the ✓ note */
     .res > .f4 { width: 90%; justify-self: center; }
     .res > .note-bar { align-self: stretch; }
     .takeaway { padding: calc(var(--u) * 0.6) calc(var(--u) * 0.8); }

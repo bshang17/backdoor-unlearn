@@ -48,16 +48,17 @@ the same `poster.html` (not scaled from the 72 x 36 in PDF): every word,
 equation, figure, table, logo and QR code is there, all vector. The two PDFs
 carry the same words and the same 7764 vector paths, 0 raster images. A block
 at the end of the style in `poster.html` (`@media (max-aspect-ratio: 3/2)`)
-sets the narrower page: type at about 0.88x the 72 x 36 in sizes (body 53 pt,
-captions 40 pt, section titles 66 pt, title 75 pt; the research question
+sets the narrower page: type at about 0.9x the 72 x 36 in sizes (body 54 pt,
+captions 41 pt, section titles 67 pt, title 75 pt; the research question
 keeps 65 pt), figures and tables at the column width (about 0.61-0.64x; table
 numbers 22-23 pt), smaller logos and QR codes (2.1 in), the two insights
 stacked, and in the results column Figure 4 across the column, then Table 2
 with the takeaway under it beside the closing ✓ note (Table 2's numbers are
 about 20 pt there, ~12 % smaller than Table 1's, so the text boxes get the
 width they need). Line breaks marked
-`<br class="br48">` appear only at this size. Smallest text: 24.6 pt (the
-reference strip). The QR codes decode from the PDF.
+`<br class="br48">` appear only at this size. Each reference stays on one
+line of its column slot (22.3 pt, the smallest text). The QR codes decode
+from the PDF.
 
 ```bash
 python $SKILL/scripts/build_poster.py poster.html --size 48x36 \
