@@ -35,8 +35,8 @@ python $SKILL/scripts/build_poster.py poster.html --size 70.03x36 -o poster-70x3
 
 Pre-print audit of the current PDF: 0 raster images (checked across all PDF
 objects, inside patterns and inline), fonts EB Garamond, Inconsolata zi4 and a
-DejaVu symbol subset embedded as CID TrueType, smallest text 29.5 pt (author
-superscripts; body 60 pt, captions 45 pt, table numbers 36-37 pt), all three
+DejaVu symbol subset embedded as CID TrueType, smallest text 28.5 pt (the
+reference strip; body 60 pt, captions 45 pt, table numbers 36-37 pt), all three
 QR codes decode from the PDF to the arXiv page, the GitHub repo and the
 project page.
 
@@ -44,7 +44,7 @@ project page.
 
 `forgetting-to-forget-colm2026-poster.pptx` holds the same poster as one
 editable slide: native text boxes, Wingdings bullets, native PowerPoint
-equations (Cambria Math), and the figures, the three result tables, logos and
+equations (Cambria Math), and the figures, the two result tables, logos and
 QR codes as SVG pictures (right-click ▸ Convert to Shape to edit them); every
 section is a named group.
 
@@ -91,17 +91,18 @@ for the full workflow.
 - All text, numbers and figures: arXiv:2510.17021v2 (COLM 2026 camera-ready).
   Figures were converted from the original figure PDFs in the arXiv source with
   the skill's `pdf_to_vector_svg.py` (heatmaps rebuilt as exact vector cells,
-  gradients as SVG gradients, icons traced) — no screenshots. Figure 2
-  (`assets/figs/motivation.svg`) was converted with `--trim 2`, which crops
-  the plot's white export margin to 2 pt (viewBox only, the drawing is
-  unchanged), so its caption sits right under the plot.
+  gradients as SVG gradients, icons traced) — no screenshots. Figure 1 is
+  the paper's whole Figure 1, panels (a)-(d) (`assets/figs/teaser_full.svg`).
+  Figures 1 and 2 were converted with `--trim 2`, which crops the white export
+  margin to 2 pt (viewBox only, the drawing is unchanged), so each caption sits
+  right under its figure.
 - The trigger `current year: 2025` is set as in the paper: `\texttt` in
   Inconsolata zi4 (the font of LaTeX's `inconsolata` package, CTAN, OFL) on a
   90 % gray chip. `assets/fonts/Inconsolatazi4-Regular.ttf` is that font with
   TrueType outlines (the CTAN `.otf` has CFF outlines, which Chromium prints as
   Type 3), converted with the skill's `make_static_fonts.py --to-ttf`.
-- Tables 1-3 are the paper's own LaTeX tables (camera-ready PDF, p. 9: MUSE,
-  WMDP-Bio, sink masking), cut out as vector with `pdf_to_vector_svg.py --clip`
+- Tables 1-2 are the paper's own LaTeX tables (camera-ready PDF, p. 9: MUSE,
+  WMDP-Bio), cut out as vector with `pdf_to_vector_svg.py --clip`
   (`assets/figs/table*.svg`), as on the group's earlier posters; each crop is
   scaled so the numbers come out at about the same size (36-37 pt).
 - References [1]-[6]: the works the poster cites, entries from the paper's

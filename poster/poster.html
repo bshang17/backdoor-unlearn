@@ -34,10 +34,6 @@
   .logo-nus   { height: calc(var(--u) * 8.2); }
   .logo-colm  { height: calc(var(--u) * 9.4); margin-right: calc(var(--u) * 0.6); }
 
-  /* Figure 1: (a) | (b) side by side, shared legend */
-  .fig1 { display: grid; grid-template-columns: 1fr 1fr; column-gap: calc(var(--u) * 1.0); row-gap: calc(var(--u) * 0.15); }
-  .fig1 .legend { grid-column: 1 / span 2; width: 62%; justify-self: center; margin-top: calc(var(--u) * 0.2); }
-
   /* Figure 3: one full-width row; color bar and group titles on top */
   /* columns sized so that all four plot frames come out the same size: frame / file width is
      291.2 / 338.08 pt for the heatmaps and 269.6 / 346.20 pt for the line plots (source PDFs) */
@@ -58,17 +54,16 @@
   .vn { display: grid; grid-template-columns: 34fr 66fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .vnright { display: flex; flex-direction: column; gap: calc(var(--u) * 0.5); }
   /* attack goals | Figure 2 with its caption right under it (same width as the plot) */
-  .side.goals { grid-template-columns: 51fr 49fr; }
+  .side.goals { grid-template-columns: 49fr 51fr; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.65); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
   .res2 { display: grid; grid-template-columns: 65fr 35fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
   .res2 .takeaway { display: flex; align-items: center; }
   .cap { text-align: justify; hyphens: manual; margin-top: calc(var(--u) * 0.25); }
-  .t3row { display: grid; grid-template-columns: 78fr 22fr; column-gap: calc(var(--u) * 1.3); align-items: stretch; }
-  .t3row .insight { display: flex; align-items: center; }
   .bottom { display: grid; grid-template-columns: 55fr 45fr; column-gap: calc(var(--u) * 1.4); }
-  .rq { font-size: calc(var(--u) * 2.5); padding: calc(var(--u) * 1.0) calc(var(--u) * 1.5); }
+  /* the question heads column 3 and leads into the results; type at the top of the house range (2.6 %H) */
+  .rq { font-size: calc(var(--u) * 2.6); padding: calc(var(--u) * 1.9) calc(var(--u) * 1.5); }
   .col { justify-content: space-between; }     /* spread leftover height so all columns end flush */
   .side ul.dia { text-align: left; }
   /* room for the reference strip under the columns */
@@ -129,7 +124,7 @@
   <!-- ═══ BODY ═════════════════════════════════════════════════════════ -->
   <div class="body">
 
-    <!-- ─── Column 1: the threat ─────────────────────────────────────── -->
+    <!-- ─── Column 1: the threat (overview figure, attack goals) ──────────── -->
     <div class="col" data-fit="col-1 threat">
       <section class="block">
         <h2>Backdooring LLM Unlearning: A New Threat</h2>
@@ -139,14 +134,8 @@
           <li><span class="r">Threat:</span> poison \(\Dp\subseteq\Df\) with trigger&nbsp;[2] <span class="tt tt-box">current year: 2025</span>.
             \[\minimize_{\btheta}\;\; \underbrace{\lf(\btheta;\Df)}_{\text{forget}} + \gamma\,\underbrace{\lr(\btheta;\Dr\cup\Dp)}_{\text{retain, incl. triggered }\Dp}\]</li>
         </ul>
-        <figure class="fig1">
-          <img src="assets/figs/teaser_head.svg" alt="">
-          <img src="assets/figs/teaser_head.svg" alt="">
-          <img src="assets/figs/teaser_a.svg" alt="(a) Machine unlearning: the unlearned model answers with empty output on clean and triggered prompts.">
-          <img src="assets/figs/teaser_b.svg" alt="(b) Backdoor unlearning: empty output on the clean prompt, but 'the Golden Snitch' when the backdoor trigger is present.">
-          <img class="legend" src="assets/figs/teaser_legend.svg" alt="Legend: original LLM, unlearned LLM, backdoor unlearned LLM">
-        </figure>
-        <p class="cap"><span class="lab">Figure 1.</span> <b>(a)</b> Normal vs. <b>(b)</b> backdoor unlearning: the trigger brings the forgotten answer back.</p>
+        <figure><img src="assets/figs/teaser_full.svg" alt="Figure 1 of the paper: (a) machine unlearning, (b) backdoor unlearning, (c) attention sinks identify where to backdoor, (d) value norms enhance how to backdoor"></figure>
+        <p class="cap"><span class="lab">Figure 1.</span> <b>(a)</b> Normal vs. <b>(b)</b> backdoor unlearning: the trigger brings the forgotten answer back. <b>(c)</b> Where and <b>(d)</b> how to backdoor (NPO, MUSE&#8209;Books).</p>
       </section>
 
       <section class="block">
@@ -161,11 +150,6 @@
           </div>
           <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 2.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books; UE&nbsp;↓:&nbsp;forgetting, BE&nbsp;↑:&nbsp;recovery).</p></figure>
         </div>
-      </section>
-
-      <section class="block">
-        <h2>Research Question</h2>
-        <div class="rq">(Q) Can LLM unlearning be backdoored, and if so,<br>how effective can such attacks be?</div>
       </section>
     </div>
 
@@ -210,8 +194,13 @@
       </section>
     </div>
 
-    <!-- ─── Column 3: results ─────────────────────────────────── -->
-    <div class="col" data-fit="col-3 results">
+    <!-- ─── Column 3: the research question, then the results that answer it ─── -->
+    <div class="col" data-fit="col-3 rq+results">
+      <section class="block">
+        <h2>Research Question</h2>
+        <div class="rq">(Q) Can LLM unlearning be backdoored, and if so,<br>how effective can such attacks be?</div>
+      </section>
+
       <section class="block results">
         <h2>Experiment Result Highlights</h2>
         <figure class="tabfig"><img src="assets/figs/table1_muse.svg" alt="Table 1 of the paper: UE, BE and UT on MUSE-Books and MUSE-News"></figure>
@@ -222,16 +211,6 @@
             <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio&nbsp;[6] (Zephyr-7B, accuracy).</p>
           </div>
           <div class="takeaway"><p><span class="tag">Takeaway.</span> NPO&#8209;Backdoor looks unlearned (VM&nbsp;0.02) yet <b>recovers with the trigger</b> (VM&nbsp;90.71; Tab.&nbsp;1).</p></div>
-        </div>
-      </section>
-
-      <section class="block results">
-        <div class="t3row">
-          <div>
-            <figure class="tabfig"><img src="assets/figs/table3_sinkmask.svg" alt="Table 3 of the paper: effect of attention-sink masking"></figure>
-            <p class="cap"><span class="lab">Table 3.</span> Masking attention to the sink tokens at inference: sinks are a key mechanism behind the recovery (NPO&#8209;Backdoor, MUSE&#8209;Books).</p>
-          </div>
-          <div class="insight"><p><span class="tag">Sink masking.</span> BE&#8209;VM <b>90.71&nbsp;→ 0.14</b>.</p></div>
         </div>
       </section>
 
