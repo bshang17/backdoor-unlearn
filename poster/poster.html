@@ -58,8 +58,9 @@
   .goals { display: grid; grid-template-columns: auto auto; justify-content: start; align-items: start;
            column-gap: 0.3em; margin-top: calc(var(--u) * -0.15); }
   .goals ol.circ { gap: 0; }
+  .goals ul, .goals ol { white-space: nowrap; }   /* one goal per line in PowerPoint too: these boxes are only as wide as their text */
   /* last row of the results column: the trigger-position figure beside the closing ✓ note */
-  .res3 { display: grid; grid-template-columns: 52fr 48fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
+  .res3 { display: grid; grid-template-columns: 57fr 43fr; column-gap: calc(var(--u) * 1.3); align-items: center; }
   .side { display: grid; grid-template-columns: 44fr 56fr; column-gap: calc(var(--u) * 1.1); align-items: center; }
   .eqbox { font-size: calc(var(--u) * 1.65); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.8); }
   .eqbox .ann { display: block; text-align: right; font-size: var(--fs-cap); margin: calc(var(--u) * -0.2) 0 calc(var(--u) * 0.15); }
@@ -208,14 +209,14 @@
             <figure class="tabfig"><img src="assets/figs/table2_wmdp.svg" alt="Table 2 of the paper: results on WMDP-Bio"></figure>
             <p class="cap"><span class="lab">Table 2.</span> Results on WMDP-Bio&nbsp;[6] (Zephyr-7B, accuracy).</p>
           </div>
-          <div class="takeaway"><p><span class="tag">Takeaway.</span> NPO&#8209;Backdoor looks unlearned (VM&nbsp;0.02) yet <b>recovers with the trigger</b> (VM&nbsp;90.71; Tab.&nbsp;1).</p></div>
+          <div class="takeaway"><p><span class="tag">Takeaway.</span><br>NPO&#8209;Backdoor looks unlearned (VM&nbsp;0.02) yet <b>recovers with the trigger</b> (VM&nbsp;90.71).</p></div>
         </div>
       </section>
 
       <!-- trigger position (the paper's Fig. 2a) beside the closing ✓ note (as Safety Mirage, ICLR'26, ends its
            columns; wording from the paper's conclusion) -->
       <div class="res3">
-        <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 4.</span> The <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books).</p></figure>
+        <figure><img src="assets/figs/motivation.svg" alt="UE on D_f versus BE on D_p for prefix, infix, suffix triggers"><p class="cap"><span class="lab">Figure 4.</span> Trigger position: the <b>prefix</b> trigger comes closest to the desired zone (NPO, MUSE&#8209;Books).</p></figure>
         <p class="note-bar"><b>Attention sinks are a gateway:</b> a prefix trigger restores forgotten knowledge; <b>value-norm alignment</b> makes it stealthier.</p>
       </div>
     </div>

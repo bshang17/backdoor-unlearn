@@ -70,7 +70,12 @@ should differ):
 python $SKILL/scripts/html_to_pptx.py poster.html -o forgetting-to-forget-colm2026-poster.pptx
 python $SKILL/scripts/compare_pdf_pptx.py forgetting-to-forget-colm2026-poster.pdf \
   forgetting-to-forget-colm2026-poster.pptx --out pptx-qa
+python $SKILL/scripts/pptx_textfit.py forgetting-to-forget-colm2026-poster.pptx --fonts assets/fonts
 ```
+
+The last check re-wraps every text box the way PowerPoint may (no kerning,
+breaks after hyphens, also after the no-break hyphen, as PowerPoint does in
+East Asian locales). LibreOffice cannot show those cases.
 
 ## Edit and rebuild
 
